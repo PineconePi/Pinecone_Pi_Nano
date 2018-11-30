@@ -1,8 +1,8 @@
 ###  **文件说明** 
 
 1. Model.stl : Nano 3D模型
-2. Underside  : Nano外壳下
-3. Upside  : Nano外壳上
+2. Underside.stl : Nano外壳下
+3. Upside.stl : Nano外壳上
 
 ###  **打印指南** 
 
