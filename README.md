@@ -3,7 +3,7 @@ Pinecone Pi nano|松果派Nano是一块满足8051单片机爱好者和创客一�
 
 ###  **目录结构** 
 
-1. Chipbook:Nano使用说明书 And 相关芯片手册 And 驱动程序
+1. Chipbook:Nano使用说明书 And 相关芯片手册 And 驱动程序 And 核心头文件 （建议Clone)
 2. Demo:nano十万种玩法推荐（实例项目，来源于松果社区分享）
 3. Example project:Pinecone Pi提供的标准工程（新手福音）
 4. Library:丰富的外设驱动库分享
