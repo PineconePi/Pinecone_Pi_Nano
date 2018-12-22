@@ -5,14 +5,14 @@
   * @version V1.0.0
   * @date    20-December-2018
   * @brief  This file is used to complete software Delay
-  *          
+  * @License:GNU General Public License v3.0         
   ******************************************************************************
   * @attention
-  *The frequency of crystal oscillator is 24 Mhz
-  *Input parameter range: 0 to 2^16-1
-  * Usage: 
-  * delayms(1000); //Delay 1 second
-  * delayus(1000);//delay 1 ms
+  *
+  *
+  *  
+  * 
+  * 
   * 
   * 
   *
@@ -21,5 +21,5 @@
 	**/
 #ifndef __DELAY_H_
 #define __DELAY_H_
-void delayms(unsigned int ms);//∫¡√Î—”≥Ÿ
-void delayus(unsigned int us);//Œ¢√Î—”≥Ÿ
+void delay_ms(unsigned int ms);//∫¡√Î—”≥Ÿ
+void delay_us(unsigned int us);//Œ¢√Î—”≥Ÿ
