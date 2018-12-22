@@ -21,5 +21,5 @@
 	**/
 #ifndef __DELAY_H_
 #define __DELAY_H_
-void delayms(unsigned int ms);//∫¡√Î∂® ±
-void delayus(unsigned int us);//Œ¢√Î∂® ±
+void delayms(unsigned int ms);//∫¡√Î—”≥Ÿ
+void delayus(unsigned int us);//Œ¢√Î—”≥Ÿ
