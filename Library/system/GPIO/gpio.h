@@ -50,6 +50,9 @@
 // 结构体: GPIO_InitTypeDef
 // 描述: GPIO配置结构体。
 // 参数: Mode,IO模式（GPIO_PullUp：上拉准双向口 , GPIO_HighZ：浮空输入 , GPIO_OUT_OD：开漏输出 , GPIO_OUT_PP：推挽输出
+//			 Pin,端口,(GPIO_Pin_0 ：IO引脚 Px.0 ，PIO_Pin_1 ：IO引脚 Px.1 ，PIO_Pin_2 ：IO引脚 Px.2 ，PIO_Pin_3 ：IO引脚 Px.3 ，
+// 			 PIO_Pin_4 ：IO引脚 Px.4 ，PIO_Pin_5 ：IO引脚 Px.5 ，PIO_Pin_6 ：IO引脚 Px.6 ，PIO_Pin_7 ：IO引脚 Px.7 ，
+//			 PIO_Pin_All ：IO所有引脚 
 // 返回: none.
 // 版本: VER1.0.0
 // 日期: 2018-12-20

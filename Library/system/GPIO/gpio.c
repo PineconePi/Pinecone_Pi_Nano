@@ -26,11 +26,17 @@
 //========================================================================
 // 函数: unsigned char	GPIO_Inilize(unsigned char GPIO, GPIO_InitTypeDef *GPIOx)
 // 描述: 初始化IO口.
-// 参数: GPIOx: 结构参数,请参考gpio.h里的结构体说明.
+// 参数: GPIO：GPIO_P0:P0引脚（8个），GPIO_P1:P1引脚（8个），GPIO_P2:P2引脚（8个），GPIO_P3:P3引脚（8个），
+//             GPIO_P4:P4引脚（8个），GPIO_P5:P5引脚（8个），
+//       GPIOx: 结构参数,请参考gpio.h里的结构体说明.
 // 返回: 成功返回0, 空操作返回1,错误返回2.
 // 版本: VER1.0.0
 // 日期: 2018-12-20
-// 备注: 用法见gpio.h
+// 备注: 通过以下步骤将P0^0和P0^1设置为上拉准双向口
+//       GPIO_InitTypeDef GPIO_InitTypeDef;
+//			 GPIO_InitTypeDef.Mode = GPIO_PullUp;//上拉准双向口
+//       GPIO_InitTypeDef.Pin = GPIO_Pin_0|GPIO_Pin_1;//同时配置IO引脚 Px.0与Px.1
+//			 GPIO_Inilize(GPIO_P0 ,&GPIO_InitTypeDef);//IO引脚 P0.0
 //========================================================================
 unsigned char	GPIO_Inilize(unsigned char GPIO, GPIO_InitTypeDef *GPIOx)
 {
