@@ -109,6 +109,23 @@ void UART2_int (void) interrupt 8
 	}
 
 }
+//========================================================================
+// 函数: unsigned char USART_Configuration(unsigned char UARTx, COMx_InitDefine *COMx)
+// 描述: 串口初始化程序.
+// 参数:  请参考uart.c里面的结构体定义
+//       
+//       
+// 返回: 
+// 版本: VER1.0.0
+// 日期: 2018-12-20
+// 作者: PineconePi
+// 备注:
+//	
+//	
+//	
+//	
+//	
+//========================================================================
 unsigned char USART_Configuration(unsigned char UARTx, COMx_InitDefine *COMx)
 {
 	unsigned char	i;
