@@ -31,6 +31,6 @@
 #define SMG2 2  //数码管2
 
 
-void digitaltube_enable(unsigned char SMGx,unsigned char Enable_Disable);//使能数码管
-void digitaltube_display(unsigned char Decimal_point_Enable,unsigned char dat);//使能小数点，显示数字（0-9）
+void Digitaltube_Enable(unsigned char SMGx,unsigned char Enable_Disable);//使能数码管
+void Digitaltube_Display(unsigned char Decimal_point_Enable,unsigned char dat);//使能小数点，显示数字（0-9）
 #endif

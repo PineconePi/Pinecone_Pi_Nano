@@ -40,7 +40,7 @@ unsigned char Segment_code[]={0x3f,0x06,0x5b,0x4f,0x66,0x6d,0x7d,0x07,0x7f,0x6f}
 //	
 //	
 //========================================================================
-void digitaltube_enable(unsigned char SMGx,unsigned char Enable_Disable)
+void Digitaltube_Enable(unsigned char SMGx,unsigned char Enable_Disable)
 {
 	if(SMGx==SMG1){
 		if(Enable_Disable == ENABLE)
@@ -73,7 +73,7 @@ void digitaltube_enable(unsigned char SMGx,unsigned char Enable_Disable)
 //	
 //	
 //========================================================================
-void digitaltube_display(unsigned char Decimal_point_Enable,unsigned char dat)
+void Digitaltube_Display(unsigned char Decimal_point_Enable,unsigned char dat)
 {
 	if(Decimal_point_Enable == ENABLE)
 	{
