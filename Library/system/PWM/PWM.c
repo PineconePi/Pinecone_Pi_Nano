@@ -21,15 +21,15 @@
 #include "PWM.h"
 
 //========================================================================
-// 函数: PWM_Output
+// 函数: void PWM_Output(unsigned char PWM_Number,PWM_InitTypeDef *PWMx)
 // 描述: PWM模块输出函数。
 // 参数: PWM_Number		(PWM模块编号 参数范围：0~7)
 //  	   *PWMx：详情见PWM.h
 // 返回: None.
 // 版本: VER1.0.0
 // 日期: 2019-2-10
-// 备注: 通过以下步骤使能对应的PWM模块并启用对应通道输出
-// PWM_Output(PWM_0,PWM_Channel1,50,1000);//第0组PWM启用 1通道输出(默认通道) 占空比100% 频率1000Hz
+// 备注: 
+// 
 //========================================================================
 void PWM_Output(unsigned char PWM_Number,PWM_InitTypeDef *PWMx)
 { 
