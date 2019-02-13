@@ -1,0 +1,51 @@
+C51 COMPILER V9.01   MAIN                                                                  02/13/2019 11:18:44 PAGE 1   
+
+
+C51 COMPILER V9.01, COMPILATION OF MODULE MAIN
+OBJECT MODULE PLACED IN .\Objects\main.obj
+COMPILER INVOKED BY: E:\KEIL14¿ª·¢³ÌÐò\C51\BIN\C51.EXE main.c LARGE OPTIMIZE(8,SPEED) BROWSE INCDIR(.\Library\device\dig
+                    -ital tube;.\Library\device\HC_SR04;.\Library\device\MP3Player;.\Library\device\Servo;.\Library\device\WS2812B;.\Library\
+                    -system\ADC;.\Library\system\delay;.\Library\system\EEPROM;.\Library\system\EXTI;.\Library\system\GPIO;.\Library\system\I
+                    -IC;.\Library\system\PCA;.\Library\system\PWM;.\Library\system\SYSTEM(Important documents£©;.\Library\system\TIMER;.\Libr
+                    -ary\system\UART;.\Library\system\WatchDog) DEBUG OBJECTEXTEND PRINT(.\Listings\main.lst) TABS(2) OBJECT(.\Objects\main.o
+                    -bj)
+
+line level    source
+
+   1          #include "system.h"
+   2          #include  "adc.h"
+   3          #include  "delay.h"
+   4          #include  "eeprom.h"
+   5          #include  "exti.h"
+   6          #include  "gpio.h"
+   7          #include  "iic.h"
+   8          #include  "pca.h"
+   9          #include  "pwm.h"
+  10          #include  "timer.h"
+  11          #include  "uart.h"
+  12          #include  "watchdog.h"
+  13          
+  14          #include  "digitaltube.h"
+  15          #include  "hc_sr04.h"
+  16          #include  "mp3player.h"
+  17          #include  "servo.h"
+  18          #include  "ws2812b.h"
+  19          void main()
+  20          {
+  21   1      
+  22   1      }
+*** WARNING C316 IN LINE 22 OF main.c: unterminated conditionals
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =      1    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =   ----    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  1 WARNING(S),  0 ERROR(S)

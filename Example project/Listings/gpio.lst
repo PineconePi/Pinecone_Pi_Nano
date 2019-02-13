@@ -1,0 +1,119 @@
+C51 COMPILER V9.01   GPIO                                                                  02/13/2019 11:18:46 PAGE 1   
+
+
+C51 COMPILER V9.01, COMPILATION OF MODULE GPIO
+OBJECT MODULE PLACED IN .\Objects\gpio.obj
+COMPILER INVOKED BY: E:\KEIL14¿ª·¢³ÌÐò\C51\BIN\C51.EXE Library\system\GPIO\gpio.c LARGE OPTIMIZE(8,SPEED) BROWSE INCDIR(
+                    -.\Library\device\digital tube;.\Library\device\HC_SR04;.\Library\device\MP3Player;.\Library\device\Servo;.\Library\devic
+                    -e\WS2812B;.\Library\system\ADC;.\Library\system\delay;.\Library\system\EEPROM;.\Library\system\EXTI;.\Library\system\GPI
+                    -O;.\Library\system\IIC;.\Library\system\PCA;.\Library\system\PWM;.\Library\system\SYSTEM(Important documents£©;.\Library
+                    -\system\TIMER;.\Library\system\UART;.\Library\system\WatchDog) DEBUG OBJECTEXTEND PRINT(.\Listings\gpio.lst) TABS(2) OBJ
+                    -ECT(.\Objects\gpio.obj)
+
+line level    source
+
+   1          /**
+   2            ******************************************************************************
+   3            * @file    gpio.c
+   4            * @author  PineconePi
+   5            * @version V1.0.0
+   6            * @date    20-December-2018
+   7            * @brief  This document is used for GPIO configuration
+   8            * @License:GNU General Public License v3.0         
+   9            ******************************************************************************
+  10            * @attention
+  11            
+  12            *
+  13            *  
+  14            * 
+  15            * 
+  16            * 
+  17            * 
+  18            *
+  19            * 
+  20            ******************************************************************************
+  21            **/
+  22            
+  23          #include  "GPIO.h"
+  24          
+  25          
+  26          //========================================================================
+  27          // º¯Êý: unsigned char  GPIO_Inilize(unsigned char GPIO, GPIO_InitTypeDef *GPIOx)
+  28          // ÃèÊö: ³õÊ¼»¯IO¿Ú.
+  29          // ²ÎÊý: GPIO£ºGPIO_P0:P0Òý½Å£¨8¸ö£©£¬GPIO_P1:P1Òý½Å£¨8¸ö£©£¬GPIO_P2:P2Òý½Å£¨8¸ö£©£¬GPIO_P3:P3Òý½Å£¨8¸ö£©£
+             -¬
+  30          //             GPIO_P4:P4Òý½Å£¨8¸ö£©£¬GPIO_P5:P5Òý½Å£¨8¸ö£©£¬
+  31          //       GPIOx: ½á¹¹²ÎÊý,Çë²Î¿¼gpio.hÀïµÄ½á¹¹ÌåËµÃ÷.
+  32          // ·µ»Ø: ³É¹¦·µ»Ø0, ¿Õ²Ù×÷·µ»Ø1,´íÎó·µ»Ø2.
+  33          // °æ±¾: VER1.0.0
+  34          // ÈÕÆÚ: 2018-12-20
+  35          // ±¸×¢: Í¨¹ýÒÔÏÂ²½Öè½«P0^0ºÍP0^1ÉèÖÃÎªÉÏÀ­×¼Ë«Ïò¿Ú
+  36          //       GPIO_InitTypeDef GPIO_InitTypeDef;
+  37          //       GPIO_InitTypeDef.Mode = GPIO_PullUp;//ÉÏÀ­×¼Ë«Ïò¿Ú
+  38          //       GPIO_InitTypeDef.Pin = GPIO_Pin_0|GPIO_Pin_1;//Í¬Ê±ÅäÖÃIOÒý½Å Px.0ÓëPx.1
+  39          //       GPIO_Inilize(GPIO_P0 ,&GPIO_InitTypeDef);//IOÒý½Å P0.0
+  40          //========================================================================
+  41          unsigned char GPIO_Inilize(unsigned char GPIO, GPIO_InitTypeDef *GPIOx)
+  42          {
+  43   1        if(GPIO > GPIO_P5)        return 1; //¿Õ²Ù×÷
+  44   1        if(GPIOx->Mode > GPIO_OUT_PP) return 2; //´íÎó
+  45   1        if(GPIO == GPIO_P0)
+  46   1        {
+  47   2          if(GPIOx->Mode == GPIO_PullUp)    P0M1 &= ~GPIOx->Pin,  P0M0 &= ~GPIOx->Pin;   //ÉÏÀ­×¼Ë«Ïò¿Ú
+  48   2          if(GPIOx->Mode == GPIO_HighZ)   P0M1 |=  GPIOx->Pin,  P0M0 &= ~GPIOx->Pin;   //¸¡¿ÕÊäÈë
+  49   2          if(GPIOx->Mode == GPIO_OUT_OD)    P0M1 |=  GPIOx->Pin,  P0M0 |=  GPIOx->Pin;   //¿ªÂ©Êä³ö
+C51 COMPILER V9.01   GPIO                                                                  02/13/2019 11:18:46 PAGE 2   
+
+  50   2          if(GPIOx->Mode == GPIO_OUT_PP)    P0M1 &= ~GPIOx->Pin,  P0M0 |=  GPIOx->Pin;   //ÍÆÍìÊä³ö
+  51   2        }
+  52   1        if(GPIO == GPIO_P1)
+  53   1        {
+  54   2          if(GPIOx->Mode == GPIO_PullUp)    P1M1 &= ~GPIOx->Pin,  P1M0 &= ~GPIOx->Pin;   //ÉÏÀ­×¼Ë«Ïò¿Ú
+  55   2          if(GPIOx->Mode == GPIO_HighZ)   P1M1 |=  GPIOx->Pin,  P1M0 &= ~GPIOx->Pin;   //¸¡¿ÕÊäÈë
+  56   2          if(GPIOx->Mode == GPIO_OUT_OD)    P1M1 |=  GPIOx->Pin,  P1M0 |=  GPIOx->Pin;   //¿ªÂ©Êä³ö
+  57   2          if(GPIOx->Mode == GPIO_OUT_PP)    P1M1 &= ~GPIOx->Pin,  P1M0 |=  GPIOx->Pin;   //ÍÆÍìÊä³ö
+  58   2        }
+  59   1        if(GPIO == GPIO_P2)
+  60   1        {
+  61   2          if(GPIOx->Mode == GPIO_PullUp)    P2M1 &= ~GPIOx->Pin,  P2M0 &= ~GPIOx->Pin;   //ÉÏÀ­×¼Ë«Ïò¿Ú
+  62   2          if(GPIOx->Mode == GPIO_HighZ)   P2M1 |=  GPIOx->Pin,  P2M0 &= ~GPIOx->Pin;   //¸¡¿ÕÊäÈë
+  63   2          if(GPIOx->Mode == GPIO_OUT_OD)    P2M1 |=  GPIOx->Pin,  P2M0 |=  GPIOx->Pin;   //¿ªÂ©Êä³ö
+  64   2          if(GPIOx->Mode == GPIO_OUT_PP)    P2M1 &= ~GPIOx->Pin,  P2M0 |=  GPIOx->Pin;   //ÍÆÍìÊä³ö
+  65   2        }
+  66   1        if(GPIO == GPIO_P3)
+  67   1        {
+  68   2          if(GPIOx->Mode == GPIO_PullUp)    P3M1 &= ~GPIOx->Pin,  P3M0 &= ~GPIOx->Pin;   //ÉÏÀ­×¼Ë«Ïò¿Ú
+  69   2          if(GPIOx->Mode == GPIO_HighZ)   P3M1 |=  GPIOx->Pin,  P3M0 &= ~GPIOx->Pin;   //¸¡¿ÕÊäÈë
+  70   2          if(GPIOx->Mode == GPIO_OUT_OD)    P3M1 |=  GPIOx->Pin,  P3M0 |=  GPIOx->Pin;   //¿ªÂ©Êä³ö
+  71   2          if(GPIOx->Mode == GPIO_OUT_PP)    P3M1 &= ~GPIOx->Pin,  P3M0 |=  GPIOx->Pin;   //ÍÆÍìÊä³ö
+  72   2        }
+  73   1        if(GPIO == GPIO_P4)
+  74   1        {
+  75   2          if(GPIOx->Mode == GPIO_PullUp)    P4M1 &= ~GPIOx->Pin,  P4M0 &= ~GPIOx->Pin;   //ÉÏÀ­×¼Ë«Ïò¿Ú
+  76   2          if(GPIOx->Mode == GPIO_HighZ)   P4M1 |=  GPIOx->Pin,  P4M0 &= ~GPIOx->Pin;   //¸¡¿ÕÊäÈë
+  77   2          if(GPIOx->Mode == GPIO_OUT_OD)    P4M1 |=  GPIOx->Pin,  P4M0 |=  GPIOx->Pin;   //¿ªÂ©Êä³ö
+  78   2          if(GPIOx->Mode == GPIO_OUT_PP)    P4M1 &= ~GPIOx->Pin,  P4M0 |=  GPIOx->Pin;   //ÍÆÍìÊä³ö
+  79   2        }
+  80   1        if(GPIO == GPIO_P5)
+  81   1        {
+  82   2          if(GPIOx->Mode == GPIO_PullUp)    P5M1 &= ~GPIOx->Pin,  P5M0 &= ~GPIOx->Pin;   //ÉÏÀ­×¼Ë«Ïò¿Ú
+  83   2          if(GPIOx->Mode == GPIO_HighZ)   P5M1 |=  GPIOx->Pin,  P5M0 &= ~GPIOx->Pin;   //¸¡¿ÕÊäÈë
+  84   2          if(GPIOx->Mode == GPIO_OUT_OD)    P5M1 |=  GPIOx->Pin,  P5M0 |=  GPIOx->Pin;   //¿ªÂ©Êä³ö
+  85   2          if(GPIOx->Mode == GPIO_OUT_PP)    P5M1 &= ~GPIOx->Pin,  P5M0 |=  GPIOx->Pin;   //ÍÆÍìÊä³ö
+  86   2        }
+  87   1        return 0; //³É¹¦
+  88   1      }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    452    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =   ----    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

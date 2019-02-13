@@ -1,0 +1,161 @@
+C51 COMPILER V9.01   TIMER                                                                 02/13/2019 11:18:47 PAGE 1   
+
+
+C51 COMPILER V9.01, COMPILATION OF MODULE TIMER
+OBJECT MODULE PLACED IN .\Objects\timer.obj
+COMPILER INVOKED BY: E:\KEIL14开发程序\C51\BIN\C51.EXE Library\system\TIMER\timer.c LARGE OPTIMIZE(8,SPEED) BROWSE INCDI
+                    -R(.\Library\device\digital tube;.\Library\device\HC_SR04;.\Library\device\MP3Player;.\Library\device\Servo;.\Library\dev
+                    -ice\WS2812B;.\Library\system\ADC;.\Library\system\delay;.\Library\system\EEPROM;.\Library\system\EXTI;.\Library\system\G
+                    -PIO;.\Library\system\IIC;.\Library\system\PCA;.\Library\system\PWM;.\Library\system\SYSTEM(Important documents）;.\Libra
+                    -ry\system\TIMER;.\Library\system\UART;.\Library\system\WatchDog) DEBUG OBJECTEXTEND PRINT(.\Listings\timer.lst) TABS(2) 
+                    -OBJECT(.\Objects\timer.obj)
+
+line level    source
+
+   1          /**
+   2            ******************************************************************************
+   3            * @file    timer.c
+   4            * @author  PineconePi
+   5            * @version V1.0.0
+   6            * @date    20-December-2018
+   7            * @brief  This document is used for timer configuration 
+   8            * @License:GNU General Public License v3.0         
+   9            ******************************************************************************
+  10            * @attention
+  11            *
+  12            *Timer Interrupt Processing Function in timer.c
+  13            *  
+  14            * 
+  15            * 
+  16            * 
+  17            * 
+  18            *
+  19            * 
+  20            ******************************************************************************
+  21            **/
+  22          
+  23          #include  "timer.h"
+  24          
+  25          /********************* Timer0中断函数************************/
+  26          void timer0_int (void) interrupt 1
+  27          {
+  28   1      
+  29   1      }
+  30          
+  31          /********************* Timer1中断函数************************/
+  32          void timer1_int (void) interrupt 3
+  33          {
+  34   1      
+  35   1      }
+  36          
+  37          /********************* Timer2中断函数************************/
+  38          void timer2_int (void) interrupt 12
+  39          {
+  40   1      
+  41   1      }
+  42          
+  43          
+  44          //========================================================================
+  45          // 函数: unsigned char  Timer_Inilize(unsigned char TIM, TIM_InitTypeDef *TIMx)
+  46          // 描述: 定时器初始化程序.
+  47          // 参数:  请参考timer.c里面的结构体定义
+  48          //       
+  49          //       
+  50          // 返回: 
+C51 COMPILER V9.01   TIMER                                                                 02/13/2019 11:18:47 PAGE 2   
+
+  51          // 版本: VER1.0.0
+  52          // 日期: 2018-12-20
+  53          // 作者: PineconePi
+  54          // 备注:
+  55          //  
+  56          //  
+  57          //  
+  58          //  
+  59          //  
+  60          //========================================================================
+  61          unsigned char Timer_Inilize(unsigned char TIM, TIM_InitTypeDef *TIMx)
+  62          {
+  63   1        if(TIM > Timer2)  return 1; //空操作
+  64   1      
+  65   1        if(TIM == Timer0)
+  66   1        {
+  67   2          TR0 = 0;    //停止计数
+  68   2          if(TIMx->TIM_Interrupt == ENABLE)   ET0 = 1;  //允许中断
+  69   2          else                  ET0 = 0;  //禁止中断
+  70   2          if(TIMx->TIM_Polity == PolityHigh)    PT0 = 1;  //高优先级中断
+  71   2          else                  PT0 = 0;  //低优先级中断
+  72   2          if(TIMx->TIM_Mode >  TIM_16BitAutoReloadNoMask) return 2; //错误
+  73   2          TMOD = (TMOD & ~0x03) | TIMx->TIM_Mode; //工作模式,0: 16位自动重装, 1: 16位定时/计数, 2: 8位自动重装, 3:
+             - 16位自动重装, 不可屏蔽中断
+  74   2          if(TIMx->TIM_ClkSource == TIM_CLOCK_12T)  AUXR &= ~0x80;  //12T
+  75   2          if(TIMx->TIM_ClkSource == TIM_CLOCK_1T)   AUXR |=  0x80;  //1T
+  76   2          if(TIMx->TIM_ClkSource == TIM_CLOCK_Ext)  TMOD |=  0x04;  //对外计数或分频
+  77   2          else                    TMOD &= ~0x04;  //定时
+  78   2          if(TIMx->TIM_ClkOut == ENABLE)  INTCLKO |=  0x01; //输出时钟
+  79   2          else              INTCLKO &= ~0x01; //不输出时钟
+  80   2          
+  81   2          TH0 = (unsigned char)(TIMx->TIM_Value >> 8);
+  82   2          TL0 = (unsigned char)TIMx->TIM_Value;
+  83   2          if(TIMx->TIM_Run == ENABLE) TR0 = 1;  //开始运行
+  84   2          return  0;    //成功
+  85   2        }
+  86   1      
+  87   1        if(TIM == Timer1)
+  88   1        {
+  89   2          TR1 = 0;    //停止计数
+  90   2          if(TIMx->TIM_Interrupt == ENABLE)   ET1 = 1;  //允许中断
+  91   2          else                  ET1 = 0;  //禁止中断
+  92   2          if(TIMx->TIM_Polity == PolityHigh)    PT1 = 1;  //高优先级中断
+  93   2          else                  PT1 = 0;  //低优先级中断
+  94   2          if(TIMx->TIM_Mode >= TIM_16BitAutoReloadNoMask) return 2; //错误
+  95   2          TMOD = (TMOD & ~0x30) | TIMx->TIM_Mode; //工作模式,0: 16位自动重装, 1: 16位定时/计数, 2: 8位自动重装
+  96   2          if(TIMx->TIM_ClkSource == TIM_CLOCK_12T)  AUXR &= ~0x40;  //12T
+  97   2          if(TIMx->TIM_ClkSource == TIM_CLOCK_1T)   AUXR |=  0x40;  //1T
+  98   2          if(TIMx->TIM_ClkSource == TIM_CLOCK_Ext)  TMOD |=  0x40;  //对外计数或分频
+  99   2          else                    TMOD &= ~0x40;  //定时
+ 100   2          if(TIMx->TIM_ClkOut == ENABLE)  INTCLKO |=  0x02; //输出时钟
+ 101   2          else              INTCLKO &= ~0x02; //不输出时钟
+ 102   2          
+ 103   2          TH1 = (unsigned char)(TIMx->TIM_Value >> 8);
+ 104   2          TL1 = (unsigned char)TIMx->TIM_Value;
+ 105   2          if(TIMx->TIM_Run == ENABLE) TR1 = 1;  //开始运行
+ 106   2          return  0;    //成功
+ 107   2        }
+ 108   1      
+ 109   1        if(TIM == Timer2)   //Timer2,固定为16位自动重装, 中断无优先级
+ 110   1        {
+ 111   2          AUXR &= ~(1<<4);  //停止计数
+C51 COMPILER V9.01   TIMER                                                                 02/13/2019 11:18:47 PAGE 3   
+
+ 112   2          if(TIMx->TIM_Interrupt == ENABLE)     IE2  |=  (1<<2);  //允许中断
+ 113   2          else                    IE2  &= ~(1<<2);  //禁止中断
+ 114   2          if(TIMx->TIM_ClkSource >  TIM_CLOCK_Ext)  return 2;
+ 115   2          if(TIMx->TIM_ClkSource == TIM_CLOCK_12T)  AUXR &= ~(1<<2);  //12T
+ 116   2          if(TIMx->TIM_ClkSource == TIM_CLOCK_1T)   AUXR |=  (1<<2);  //1T
+ 117   2          if(TIMx->TIM_ClkSource == TIM_CLOCK_Ext)  AUXR |=  (1<<3);  //对外计数或分频
+ 118   2          else                    AUXR &= ~(1<<3);  //定时
+ 119   2          if(TIMx->TIM_ClkOut == ENABLE)  INTCLKO |=  0x04; //输出时钟
+ 120   2          else              INTCLKO &= ~0x04; //不输出时钟
+ 121   2      
+ 122   2          TH2 = (unsigned char)(TIMx->TIM_Value >> 8);
+ 123   2          TL2 = (unsigned char)TIMx->TIM_Value;
+ 124   2          if(TIMx->TIM_Run == ENABLE) AUXR |=  (1<<4);  //开始运行
+ 125   2          return  0;    //成功
+ 126   2        }
+ 127   1        return 2; //错误
+ 128   1      }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    414    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =   ----    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

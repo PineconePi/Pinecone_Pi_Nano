@@ -1,0 +1,95 @@
+C51 COMPILER V9.01   DELAY                                                                 02/13/2019 11:18:46 PAGE 1   
+
+
+C51 COMPILER V9.01, COMPILATION OF MODULE DELAY
+OBJECT MODULE PLACED IN .\Objects\Delay.obj
+COMPILER INVOKED BY: E:\KEIL14开发程序\C51\BIN\C51.EXE Library\system\delay\Delay.c LARGE OPTIMIZE(8,SPEED) BROWSE INCDI
+                    -R(.\Library\device\digital tube;.\Library\device\HC_SR04;.\Library\device\MP3Player;.\Library\device\Servo;.\Library\dev
+                    -ice\WS2812B;.\Library\system\ADC;.\Library\system\delay;.\Library\system\EEPROM;.\Library\system\EXTI;.\Library\system\G
+                    -PIO;.\Library\system\IIC;.\Library\system\PCA;.\Library\system\PWM;.\Library\system\SYSTEM(Important documents）;.\Libra
+                    -ry\system\TIMER;.\Library\system\UART;.\Library\system\WatchDog) DEBUG OBJECTEXTEND PRINT(.\Listings\Delay.lst) TABS(2) 
+                    -OBJECT(.\Objects\Delay.obj)
+
+line level    source
+
+   1          /**
+   2            ******************************************************************************
+   3            * @file    Delay.c
+   4            * @author  PineconePi
+   5            * @version V1.0.0
+   6            * @date    20-December-2018
+   7            * @brief  This file is used to complete software Delay
+   8            * @License:GNU General Public License v3.0         
+   9            ******************************************************************************
+  10            * @attention
+  11            *The frequency of crystal oscillator is 24 Mhz
+  12            *
+  13            *  
+  14            * 
+  15            * 
+  16            * 
+  17            * 
+  18            *
+  19            * 
+  20            ******************************************************************************
+  21            **/
+  22          #include "delay.h"
+  23          #include "intrins.h"
+  24          //========================================================================
+  25          // 函数: void delay_ms(unsigned int ms)
+  26          // 描述: 延时函数。
+  27          // 参数: ms,要延时的ms数, 这里只支持1~10000 (10s) ms
+  28          // 返回: none.
+  29          // 版本: VER1.0.0
+  30          // 日期: 2018-12-20
+  31          // 备注: delay_ms(1000);//延迟1s
+  32          //========================================================================
+  33          void delay_ms(unsigned int ms){
+  34   1        unsigned int k;
+  35   1        unsigned char i, j;
+  36   1        for(k=0;k<ms;k++)
+  37   1        {
+  38   2        _nop_();
+  39   2        i = 32;
+  40   2        j = 40;
+  41   2          do
+  42   2          {
+  43   3            while (--j);
+  44   3          } while (--i);
+  45   2        }
+  46   1                                   }
+  47          //========================================================================
+  48          // 函数: delay_us(unsigned int us)
+  49          // 描述: 延时函数。
+  50          // 参数: us,要延时的us数, 这里只支持1~10000 (10ms) us
+C51 COMPILER V9.01   DELAY                                                                 02/13/2019 11:18:46 PAGE 2   
+
+  51          // 返回: none.
+  52          // 版本: VER1.0.0
+  53          // 日期: 2018-12-20
+  54          // 备注: delay_us(1000);//延迟1us
+  55          //========================================================================
+  56          void delay_us(unsigned int us){
+  57   1        unsigned int k;
+  58   1        unsigned char i;
+  59   1        for(k=0;k<us;k++)
+  60   1        {
+  61   2        i = 6;
+  62   2        while (--i);
+  63   2        }
+  64   1                                    }
+*** WARNING C316 IN LINE 64 OF Library\system\delay\Delay.c: unterminated conditionals
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =     49    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =   ----    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  1 WARNING(S),  0 ERROR(S)

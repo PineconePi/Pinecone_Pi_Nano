@@ -1,0 +1,19 @@
+".\Objects\main.obj",
+".\Objects\digitaltube.obj",
+".\Objects\HC_SR04.obj",
+".\Objects\mp3player.obj",
+".\Objects\Servo.obj",
+".\Objects\ws2812b.obj",
+".\Objects\ADC.obj",
+".\Objects\Delay.obj",
+".\Objects\EEPROM.obj",
+".\Objects\exti.obj",
+".\Objects\gpio.obj",
+".\Objects\iic.obj",
+".\Objects\PCA.obj",
+".\Objects\PWM.obj",
+".\Objects\timer.obj",
+".\Objects\uart.obj",
+".\Objects\watchdog.obj" 
+TO ".\Objects\Example project" 
+PRINT(".\Listings\Example project.m51") RAMSIZE(256) 
