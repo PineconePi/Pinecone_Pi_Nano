@@ -1,7 +1,7 @@
 /**
   ******************************************************************************
   * @file    Delay.c
-  * @author  PineconePi
+  * @author  PineconePi(基于宏晶科技STC15库函数进行修改)
   * @version V1.0.0
   * @date    20-December-2018
   * @brief  This file is used to complete software Delay
