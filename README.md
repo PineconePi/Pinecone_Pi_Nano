@@ -9,3 +9,5 @@ Pinecone Pi nano|松果派Nano是一块满足8051单片机爱好者和创客一�
 4. Library:丰富的外设驱动库分享
 5. Schematic diagram and PCB doc：NANO原理图与封装库
 6. Shell（3D_STL)：nano外壳3D打印文件（STL）
+7. RTOS:RTX 51 FULL(/tiny)安装包及使用指南
+8. PinCard:松果派NANO引脚示意卡（打开QQ扫一扫有彩蛋哦！）
