@@ -1,6 +1,6 @@
 ###  **List** 
 
-1. STC8A4K64S2A12.pdf : Nano Chip datesheet
+1. STC8-English.pdf : Nano Chip datesheet
 2. stc-isp.zip : Drive Programer +STC-ISP Download Software
 3. PineconePinano.h ： Chip .H file
 
