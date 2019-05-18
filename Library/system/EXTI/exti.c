@@ -63,7 +63,7 @@ void Ext_INT4 (void) interrupt EXT_INT4
 // 参数: EXT,中断序号（EXT_INT0：外部中断0 , EXT_INT1：外部中断1 , EXT_INT2：外部中断2 , 
 //       EXT_INT3：外部中断3 ， EXT_INT4：外部中断4)
 //       INTx: 结构参数,请参考Exti.h里的定义.
-// Return:|返回: 成功返回0, 空操作返回1,错误返回2.
+// Return:Successful return 0, empty return 1, error return 2.|返回: 成功返回0, 空操作返回1,错误返回2.
 // Version:VER1.0.0|版本: VER1.0.0
 // Date:2018-12-20|日期: 2018-12-20
 // Note: Enable INT0 by following steps

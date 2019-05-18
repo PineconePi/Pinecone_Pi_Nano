@@ -20,20 +20,20 @@
   * 
   ******************************************************************************
 	**/
-	/********************* 示例程序在iic.c文件末尾************************/
+	/********************* The sample program is at the end of the iic.c file|示例程序在iic.c文件末尾************************/
 #ifndef _IIC_H_
 #define _IIC_H_
 
 #include "system.h"
 
 
-#define host_machine 0  //主机模式
-#define Slave_machine 1 //从机模式
+#define host_machine 0  //Host mode|主机模式
+#define Slave_machine 1 //Slave mode|从机模式
 
-#define IIC_Slave_machine_address 0x5a //从机设备地址为5A
+#define IIC_Slave_machine_address 0x5a //Slave device address 5A|从机设备地址为5A
 
- void IIC_host_Slave_machine(unsigned char host_Slave_machine);//设置IIC模式（主机模式，从机模式）
- void handle_Slave_machine();//从机模式处理函数
+ void IIC_host_Slave_machine(unsigned char host_Slave_machine);//Set IIC mode (host mode, slave mode)|设置IIC模式（主机模式，从机模式）
+ void handle_Slave_machine();//Slave mode processing function|从机模式处理函数
  /********************* IIC主机模式相关处理函数************************/
  void Wait();
  void Start();
