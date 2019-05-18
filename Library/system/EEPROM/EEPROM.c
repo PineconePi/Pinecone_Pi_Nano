@@ -25,16 +25,16 @@
 #include "intrins.h"
 
 //========================================================================
-// 函数: void	DisableEEPROM(void)
-// 描述: 关闭IAP功能。
-// 参数: 
+// Function:void DisableEEPROM(void)|函数: void	DisableEEPROM(void)
+// Description:Turn off the IAP function.|描述: 关闭IAP功能。
+// Parameter:|参数: 
 //       
 //       
-// 返回: 
-// 版本: VER1.0.0
-// 日期: 2018-12-20
-// 作者: PineconePi
-// 备注:
+// Return:|返回: 
+// Version:VER1.0.0|版本: VER1.0.0
+// Date:2018-12-20|日期: 2018-12-20
+// Author:PineconePi|作者: PineconePi
+// Note:备注:
 //	
 //	
 //	
@@ -51,16 +51,16 @@ void	DisableEEPROM(void)
 }
 
 //========================================================================
-// 函数: char EEPROM_read(int addr)
-// 描述: 向地址addr中读取一个字节数据。
-// 参数: addr:读取地址
+// Function:char EEPROM_read(int addr)|函数: char EEPROM_read(int addr)
+// Description:Read a byte of data to address addr|描述: 向地址addr中读取一个字节数据。
+// Parameter:Addr: Read address|参数: addr:读取地址
 //       
 //       
-// 返回: addr地址中一个字节的数据
-// 版本: VER1.0.0
-// 日期: 2018-12-20
-// 作者: PineconePi
-// 备注:
+// Return:Data in a byte of addr address|返回: addr地址中一个字节的数据
+// Version:VER1.0.0|版本: VER1.0.0
+// Date:2018-12-20|日期: 2018-12-20
+// Author:PineconePi|作者: PineconePi
+// Note:|备注:
 //	
 //	
 //	
@@ -86,16 +86,16 @@ char EEPROM_read(int addr)
 }
 
 //========================================================================
-// 函数:void EEPROM_Erase(int addr)
-// 描述: 对地址addr进行数据擦出。
-// 参数: addr:要擦除的EEPROM的地址.
+// Function:void EEPROM_Erase(int addr)|函数:void EEPROM_Erase(int addr)
+// Description:The address addr is erased.|描述: 对地址addr进行数据擦出。
+// Parameter:Addr: The address of the EEPROM to be erased.|参数: addr:要擦除的EEPROM的地址.
 //       
 //       
-// 返回: 
-// 版本: VER1.0.0
-// 日期: 2018-12-20
-// 作者: PineconePi
-// 备注:
+// Return:|返回: 
+// Version:VER1.0.0|版本: VER1.0.0
+// Date:2018-12-20|日期: 2018-12-20
+// Author:PineconePi|作者: PineconePi
+// Note:|备注:
 //	
 //	
 //	
@@ -115,16 +115,16 @@ void EEPROM_Erase(int addr)
 }
 
 //========================================================================
-// 函数:void EEPROM_write(int addr, char dat)
-// 描述: 向地址addr中写入一个字节数据dat。
-// 参数: addr:要写入的EEPROM的地址.
-//       dat:写入的数据
+// Function:void EEPROM_write(int addr, char dat)|函数:void EEPROM_write(int addr, char dat)
+// Description:Write a byte data dat to the address addr.|描述: 向地址addr中写入一个字节数据dat。
+// Parameter:Addr: The address of the EEPROM to be written. dat: The data to be written|参数: addr:要写入的EEPROM的地址.dat:写入的数据
 //       
-// 返回: 
-// 版本: VER1.0.0
-// 日期: 2018-12-20
-// 作者: PineconePi
-// 备注:
+//       
+// Return:|返回: 
+// Version:VER1.0.0|版本: VER1.0.0
+// Date:2018-12-20|日期: 2018-12-20
+// Author:PineconePi|作者: PineconePi
+// Note:|备注:
 //	
 //	
 //	

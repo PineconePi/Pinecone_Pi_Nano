@@ -22,13 +22,13 @@
 #include "delay.h"
 #include "intrins.h"
 //========================================================================
-// 函数: void delay_ms(unsigned int ms)
-// 描述: 延时函数。
-// 参数: ms,要延时的ms数, 这里只支持1~10000 (10s) ms
-// 返回: none.
-// 版本: VER1.0.0
-// 日期: 2018-12-20
-// 备注: delay_ms(1000);//延迟1s
+// Function:void delay_ms(unsigned int ms)|函数: void delay_ms(unsigned int ms)
+// Description:Delay Function|描述: 延时函数。
+// Parameter:Ms, the number of MS to be delayed, where only 1-10000 (10s) MS is supported|参数: ms,要延时的ms数, 这里只支持1~10000 (10s) ms
+// Return:none|返回: none.
+// Version VER1.0.0|版本: VER1.0.0
+// Date:2018-12-20|日期: 2018-12-20
+// Note:delay_ms(1000);//Delay 1s|备注: delay_ms(1000);//延迟1s
 //========================================================================
 void delay_ms(unsigned int ms){
   unsigned int k;
@@ -45,13 +45,13 @@ void delay_ms(unsigned int ms){
 	}
 													   }
 //========================================================================
-// 函数: delay_us(unsigned int us)
-// 描述: 延时函数。
-// 参数: us,要延时的us数, 这里只支持1~10000 (10ms) us
-// 返回: none.
-// 版本: VER1.0.0
-// 日期: 2018-12-20
-// 备注: delay_us(1000);//延迟1us
+// Function:delay_us(unsigned int us)|函数: delay_us(unsigned int us)
+// Description:Delay Function|描述: 延时函数。
+// Parameter:Us, the number of us delays, where only 1-10000 (10ms) us is supported|参数: us,要延时的us数, 这里只支持1~10000 (10ms) us
+// Return:none|返回: none.
+// Version:VER1.0.0|版本: VER1.0.0
+// Date:2018-12-20|日期: 2018-12-20
+// Note:delay_us(1000);//delay 1ms|备注: delay_us(1000);//延迟1ms
 //========================================================================
 void delay_us(unsigned int us){
   unsigned int k;

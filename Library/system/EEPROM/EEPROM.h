@@ -25,7 +25,7 @@
 #include	"system.h"
 
 #define WT_30M          0x80
-#define WT_24M          0x81   //NANO内部IRC晶振频率24Mhz
+#define WT_24M          0x81   //IRC Crystal Oscillator Frequency 24Mhz in NANO|NANO内部IRC晶振频率24Mhz
 #define WT_20M          0x82
 #define WT_12M          0x83
 #define WT_6M           0x84
@@ -34,10 +34,10 @@
 #define WT_1M           0x87
 
 
-void	DisableEEPROM(void);//关闭IAP功能
-char EEPROM_read(int addr);//向地址addr中读取一个字节数据
-void EEPROM_write(int addr, char dat);//向地址addr中写入一个字节数据dat
-void EEPROM_Erase(int addr);//对地址addr进行数据擦出
+void	DisableEEPROM(void);//Turn off IAP function|关闭IAP功能
+char EEPROM_read(int addr);//Read a byte of data to address addr|向地址addr中读取一个字节数据
+void EEPROM_write(int addr, char dat);//Write a byte data dat to address addr|向地址addr中写入一个字节数据dat
+void EEPROM_Erase(int addr);//Data erase for address addr|对地址addr进行数据擦出
 
 
 #endif

@@ -91,7 +91,7 @@ void	ADC_PowerControl(unsigned char pwr)
 //       
 //       
 // Return:ADC results.|返回: ADC结果.
-// Version VER1.0.0|:版本: VER1.0.0
+// Version:VER1.0.0|:版本: VER1.0.0
 // Date:2018-12-20|日期: 2018-12-20
 // Author:PineconePi|作者: PineconePi
 // Note:|备注:
