@@ -25,18 +25,18 @@
 
 #include	"system.h"
 
-/***************************PCA用户宏定义*******************************************************/
-#define		PWM0_DUTY		4000		//定义PWM的周期，数值为PCA所选择的时钟脉冲个数。
-#define		PWM0_HIGH_MIN	80			//限制PWM输出的最小占空比。
-#define		PWM0_HIGH_MAX	(PWM0_DUTY - PWM0_HIGH_MIN)		//限制PWM输出的最大占空比。
+/***************************PCA User Macro Definition|PCA用户宏定义*******************************************************/
+#define		PWM0_DUTY		4000		//The period of PWM is defined and the number of clock pulses selected by PCA is calculated.|定义PWM的周期，数值为PCA所选择的时钟脉冲个数。
+#define		PWM0_HIGH_MIN	80			//Limit the minimum duty cycle of PWM output.|限制PWM输出的最小占空比。
+#define		PWM0_HIGH_MAX	(PWM0_DUTY - PWM0_HIGH_MIN)		//Limit the maximum duty cycle of PWM output.|限制PWM输出的最大占空比。
 
-#define		PWM1_DUTY		3000		//定义PWM的周期，数值为PCA所选择的时钟脉冲个数。
-#define		PWM1_HIGH_MIN	80			//限制PWM输出的最小占空比。
-#define		PWM1_HIGH_MAX	(PWM1_DUTY - PWM1_HIGH_MIN)		//限制PWM输出的最大占空比。
+#define		PWM1_DUTY		3000		//The period of PWM is defined and the number of clock pulses selected by PCA is calculated.|定义PWM的周期，数值为PCA所选择的时钟脉冲个数。
+#define		PWM1_HIGH_MIN	80			//Limit the minimum duty cycle of PWM output.|限制PWM输出的最小占空比。
+#define		PWM1_HIGH_MAX	(PWM1_DUTY - PWM1_HIGH_MIN)		//Limit the maximum duty cycle of PWM output.|限制PWM输出的最大占空比。
 
-#define		PWM2_DUTY		2000		//定义PWM的周期，数值为PCA所选择的时钟脉冲个数。
-#define		PWM2_HIGH_MIN	80			//限制PWM输出的最小占空比。
-#define		PWM2_HIGH_MAX	(PWM2_DUTY - PWM2_HIGH_MIN)		//限制PWM输出的最大占空比。
+#define		PWM2_DUTY		2000		//The period of PWM is defined and the number of clock pulses selected by PCA is calculated.|定义PWM的周期，数值为PCA所选择的时钟脉冲个数。
+#define		PWM2_HIGH_MIN	80			//Limit the minimum duty cycle of PWM output.|限制PWM输出的最小占空比。
+#define		PWM2_HIGH_MAX	(PWM2_DUTY - PWM2_HIGH_MIN)		//Limit the maximum duty cycle of PWM output.|限制PWM输出的最大占空比。
 
 /********************************************************************************************/
 
@@ -65,8 +65,8 @@
 #define	PCA_PWM_7bit	(1<<6)
 #define	PCA_PWM_6bit	(2<<6)
 
-#define PolityHigh  1	  //高优先级
-#define PolityLow  	0		//低优先级（默认）
+#define PolityHigh  1	  //High priority|高优先级
+#define PolityLow  	0		//Low priority (default)|低优先级（默认）
 
 typedef struct
 {
@@ -75,7 +75,7 @@ typedef struct
 	unsigned char	PCA_Mode;	//PCA_Mode_PWM, PCA_Mode_Capture, PCA_Mode_SoftTimer, PCA_Mode_HighPulseOutput
 	unsigned char	PCA_PWM_Wide;	//PCA_PWM_8bit, PCA_PWM_7bit, PCA_PWM_6bit
 	unsigned char	PCA_Interrupt_Mode;	//PCA_Rise_Active, PCA_Fall_Active, ENABLE, DISABLE
-	unsigned char	PCA_Polity;	//优先级设置	PolityHigh,PolityLow
+	unsigned char	PCA_Polity;	//Priority Setting|优先级设置	PolityHigh,PolityLow
 	unsigned int	PCA_Value;
 } PCA_InitTypeDef;
 

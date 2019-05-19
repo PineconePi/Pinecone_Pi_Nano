@@ -24,9 +24,9 @@
 
 /////////////////////////////////////////////////
 
-//包含本头文件后,不用另外再包含"REG51.H(/REG52.H)"
+//After the header file is included, there is no need to include "REG51.H (/REG52.H)|包含本头文件后,不用另外再包含"REG51.H(/REG52.H)"
 
-//内核特殊功能寄存器
+//Kernel Special Function Register|内核特殊功能寄存器
 sfr ACC         =   0xe0;
 sfr B           =   0xf0;
 sfr PSW         =   0xd0;
@@ -46,7 +46,7 @@ sfr DPL1        =   0xe4;
 sfr DPH1        =   0xe5;
 
 
-//I/O 口特殊功能寄存器
+//I/O Port Special Function Register|I/O 口特殊功能寄存器
 sfr P0          =   0x80;
 sfr P1          =   0x90;
 sfr P2          =   0xa0;
@@ -137,8 +137,8 @@ sbit P75        =   P7^5;
 sbit P76        =   P7^6;
 sbit P77        =   P7^7;
 
-//如下特殊功能寄存器位于扩展RAM区域
-//访问这些寄存器,需先将P_SW2的BIT7设置为1,才可正常读写
+//The following special function registers are located in the extended RAM area|如下特殊功能寄存器位于扩展RAM区域
+//To access these registers, the BIT7 of P_SW2 must be set to 1 before it can read and write normally.|访问这些寄存器,需先将P_SW2的BIT7设置为1,才可正常读写
 #define P0PU        (*(unsigned char volatile xdata *)0xfe10)
 #define P1PU        (*(unsigned char volatile xdata *)0xfe11)
 #define P2PU        (*(unsigned char volatile xdata *)0xfe12)
@@ -156,7 +156,7 @@ sbit P77        =   P7^7;
 #define P6NCS       (*(unsigned char volatile xdata *)0xfe1e)
 #define P7NCS       (*(unsigned char volatile xdata *)0xfe1f)
 
-//系统管理特殊功能寄存器
+//System Management Special Function Register|系统管理特殊功能寄存器
 sfr PCON        =   0x87;
 #define SMOD        0x80
 #define SMOD0       0x40
@@ -184,15 +184,15 @@ sfr P_SW2       =   0xba;
 sfr VOCTRL      =   0xbb;
 sfr RSTCFG      =   0xff;
 
-//如下特殊功能寄存器位于扩展RAM区域
-//访问这些寄存器,需先将P_SW2的BIT7设置为1,才可正常读写
+//The following special function registers are located in the extended RAM area|如下特殊功能寄存器位于扩展RAM区域
+//To access these registers, the BIT7 of P_SW2 must be set to 1 before it can read and write normally.|访问这些寄存器,需先将P_SW2的BIT7设置为1,才可正常读写
 #define CKSEL       (*(unsigned char volatile xdata *)0xfe00)
 #define CLKDIV      (*(unsigned char volatile xdata *)0xfe01)
 #define IRC24MCR    (*(unsigned char volatile xdata *)0xfe02)
 #define XOSCCR      (*(unsigned char volatile xdata *)0xfe03)
 #define IRC32KCR    (*(unsigned char volatile xdata *)0xfe04)
 
-//中断特殊功能寄存器
+//Interrupt special function register|中断特殊功能寄存器
 sfr IE          =   0xa8;
 sbit EA         =   IE^7;
 sbit ELVD       =   IE^6;
@@ -259,7 +259,7 @@ sfr AUXINTIF    =   0xef;
 #define T3IF        0x02
 #define T2IF        0x01
 
-//定时器特殊功能寄存器
+//Timer Special Function Register|定时器特殊功能寄存器
 sfr TCON        =   0x88;
 sbit TF1        =   TCON^7;
 sbit TR1        =   TCON^6;
@@ -312,7 +312,7 @@ sfr WDT_CONTR   =   0xc1;
 #define CLR_WDT     0x10
 #define IDL_WDT     0x08
 
-//串行口特殊功能寄存器
+//串行口特殊功能寄存器|串行口特殊功能寄存器
 sfr SCON        =   0x98;
 sbit SM0        =   SCON^7;
 sbit SM1        =   SCON^6;
@@ -356,7 +356,7 @@ sfr S4BUF       =   0x85;
 sfr SADDR       =   0xa9;
 sfr SADEN       =   0xb9;
 
-//ADC 特殊功能寄存器
+//ADC Special Function Register|ADC 特殊功能寄存器
 sfr ADC_CONTR   =   0xbc;
 #define ADC_POWER   0x80
 #define ADC_START   0x40
@@ -366,7 +366,7 @@ sfr ADC_RESL    =   0xbe;
 sfr ADCCFG      =   0xde;
 #define ADC_RESFMT  0x20
 
-//SPI 特殊功能寄存器
+//SPI Special Function Register|SPI 特殊功能寄存器
 sfr SPSTAT      =   0xcd;
 #define SPIF        0x80
 #define WCOL        0x40
@@ -379,7 +379,7 @@ sfr SPCTL       =   0xce;
 #define CPHA        0x04
 sfr SPDAT       =   0xcf;
 
-//IAP/ISP 特殊功能寄存器
+//IAP/ISP Special Function Register|IAP/ISP 特殊功能寄存器
 sfr IAP_DATA    =   0xc2;
 sfr IAP_ADDRH   =   0xc3;
 sfr IAP_ADDRL   =   0xc4;
@@ -401,7 +401,7 @@ sfr ISP_CMD     =   0xc5;
 sfr ISP_TRIG    =   0xc6;
 sfr ISP_CONTR   =   0xc7;
 
-//比较器特殊功能寄存器
+//Comparator Special Function Register|比较器特殊功能寄存器
 sfr CMPCR1      =   0xe6;
 #define CMPEN       0x80
 #define CMPIF       0x40
@@ -415,7 +415,7 @@ sfr CMPCR2      =   0xe7;
 #define INVCMPO     0x80
 #define DISFLT      0x40
 
-//PCA/PWM 特殊功能寄存器
+//PCA/PWM Special Function Register|PCA/PWM 特殊功能寄存器
 sfr CCON        =   0xd8;
 sbit CF         =   CCON^7;
 sbit CR         =   CCON^6;
@@ -473,7 +473,7 @@ sfr PCA_PWM1    =   0xf3;
 sfr PCA_PWM2    =   0xf4;
 sfr PCA_PWM3    =   0xf5;
 
-//增强型PWM波形发生器特殊功能寄存器
+//Special Function Register of Enhanced PWM Waveform Generator|增强型PWM波形发生器特殊功能寄存器
 sfr PWMCFG      =   0xf1;
 #define CBIF        0x80
 #define ETADC       0x40
@@ -499,8 +499,8 @@ sfr PWMCR       =   0xfe;
 #define ENPWM       0x80
 #define ECBI        0x40
 
-//如下特殊功能寄存器位于扩展RAM区域
-//访问这些寄存器,需先将P_SW2的BIT7设置为1,才可正常读写
+//The following special function registers are located in the extended RAM area|如下特殊功能寄存器位于扩展RAM区域
+//To access these registers, the BIT7 of P_SW2 must be set to 1 before it can read and write normally.|访问这些寄存器,需先将P_SW2的BIT7设置为1,才可正常读写
 #define PWMC        (*(unsigned int  volatile xdata *)0xfff0)
 #define PWMCH       (*(unsigned char volatile xdata *)0xfff0)
 #define PWMCL       (*(unsigned char volatile xdata *)0xfff1)
@@ -573,9 +573,9 @@ sfr PWMCR       =   0xfe;
 #define PWM7CR      (*(unsigned char volatile xdata *)0xff74)
 #define PWM7HLD     (*(unsigned char volatile xdata *)0xff75)
 
-//I2C特殊功能寄存器
-//如下特殊功能寄存器位于扩展RAM区域
-//访问这些寄存器,需先将P_SW2的BIT7设置为1,才可正常读写
+//I2C Special Function Register|I2C特殊功能寄存器
+//The following special function registers are located in the extended RAM area|如下特殊功能寄存器位于扩展RAM区域
+//To access these registers, the BIT7 of P_SW2 must be set to 1 before it can read and write normally.|访问这些寄存器,需先将P_SW2的BIT7设置为1,才可正常读写
 #define I2CCFG      (*(unsigned char volatile xdata *)0xfe80)
 #define ENI2C       0x80
 #define MSSL        0x40

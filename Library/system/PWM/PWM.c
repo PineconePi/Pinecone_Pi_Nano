@@ -21,14 +21,16 @@
 #include "PWM.h"
 
 //========================================================================
-// 函数: void PWM_Output(unsigned char PWM_Number,PWM_InitTypeDef *PWMx)
-// 描述: PWM模块输出函数。
+// Function:void PWM_Output(unsigned char PWM_Number,PWM_InitTypeDef *PWMx)|函数: void PWM_Output(unsigned char PWM_Number,PWM_InitTypeDef *PWMx)
+// Description:PWM module output function.|描述: PWM模块输出函数。
+// Parameters: PWM_Number (PWM module number parameter range: 0-7)
+//             * PWMx: See PWM.h for details
 // 参数: PWM_Number		(PWM模块编号 参数范围：0~7)
-//  	   *PWMx：详情见PWM.h
-// 返回: None.
-// 版本: VER1.0.0
-// 日期: 2019-2-10
-// 备注: 
+//  	 *PWMx：详情见PWM.h
+// Return: None.|返回: None.
+// Version:VER1.0.0|版本: VER1.0.0
+// Date:2018-12-20|日期: 2019-2-10
+// Note:|备注: 
 // 
 //========================================================================
 void PWM_Output(unsigned char PWM_Number,PWM_InitTypeDef *PWMx)
@@ -37,8 +39,8 @@ void PWM_Output(unsigned char PWM_Number,PWM_InitTypeDef *PWMx)
 	PWM_Buf = ( 1500000 / PWMx->PWM_Frequency );
 	PWM_Value = 1000 - PWMx->PWM_Value;
 	PWM_Pre = (PWM_Value/1000);
-	P_SW2 = 0x80;																//允许访问扩展RAM（STC新增）
-	PWMCKS = 0x0f;															//系统时钟16分频
+	P_SW2 = 0x80;																//Allow access to extended RAM (STC added)|允许访问扩展RAM（STC新增）
+	PWMCKS = 0x0f;															   //System Clock 16 Dividing Frequency|系统时钟16分频
 	PWMC = PWM_Buf;	
 	switch(PWM_Number)
 	{
@@ -52,7 +54,7 @@ void PWM_Output(unsigned char PWM_Number,PWM_InitTypeDef *PWMx)
 		case 7 : PWM7T1 = 0x0000;PWM7T2 = PWM_Buf*PWM_Pre;PWM7CR= 0x80|PWMx->PWM_Channelx;break;
 		default:break;
 	}
-	P_SW2 = 0x00;																//禁止访问扩展RAM（STC新增）
-	PWMCR = 0x80;                               //启动PWM模块
+	P_SW2 = 0x00;																//Disallow Access to Extended RAM (STC Added)|禁止访问扩展RAM（STC新增）
+	PWMCR = 0x80;                               //Start PWM module|启动PWM模块
 }
 
