@@ -47,13 +47,13 @@
 
 typedef struct
 {
-	unsigned char	TIM_Mode;		//工作模式,  	TIM_16BitAutoReload,TIM_16Bit,TIM_8BitAutoReload,TIM_16BitAutoReloadNoMask
-	unsigned char	TIM_Polity;		//优先级设置	PolityHigh,PolityLow
-	unsigned char	TIM_Interrupt;	//中断允许		ENABLE,DISABLE
-	unsigned char	TIM_ClkSource;	//时钟源		TIM_CLOCK_1T,TIM_CLOCK_12T,TIM_CLOCK_Ext
-	unsigned char	TIM_ClkOut;		//可编程时钟输出,	ENABLE,DISABLE
-	unsigned int	TIM_Value;		//装载初值
-	unsigned char	TIM_Run;		//是否运行		ENABLE,DISABLE
+	unsigned char	TIM_Mode;		//Working mode|工作模式,  	TIM_16BitAutoReload,TIM_16Bit,TIM_8BitAutoReload,TIM_16BitAutoReloadNoMask
+	unsigned char	TIM_Polity;		//Priority Setting|优先级设置	PolityHigh,PolityLow
+	unsigned char	TIM_Interrupt;	//Interrupt enable|中断允许		ENABLE,DISABLE
+	unsigned char	TIM_ClkSource;	//Clock source|时钟源		TIM_CLOCK_1T,TIM_CLOCK_12T,TIM_CLOCK_Ext
+	unsigned char	TIM_ClkOut;		//Programmable clock output|可编程时钟输出,	ENABLE,DISABLE
+	unsigned int	TIM_Value;		//Initial load|装载初值
+	unsigned char	TIM_Run;		//是否运行|是否运行		ENABLE,DISABLE
 } TIM_InitTypeDef;
 
 unsigned char	Timer_Inilize(unsigned char TIM, TIM_InitTypeDef *TIMx);
