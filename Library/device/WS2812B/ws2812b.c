@@ -21,24 +21,24 @@
 	**/
 #include "ws2812b.h"
 #include "intrins.h"
- //一个 nop 41.6666667 ns	(1T：1个机器周期=1个时钟周期）
-unsigned char data_red[n_ws2812b] = {0};//普通模式颜色缓存
+ //One NOP 41.6666667 ns (1T: 1 machine cycle = 1 clock cycle)|一个 nop 41.6666667 ns	(1T：1个机器周期=1个时钟周期）
+unsigned char data_red[n_ws2812b] = {0};//Common mode color buffer|普通模式颜色缓存
 unsigned char data_green[n_ws2812b] = {0};
 unsigned char data_blue[n_ws2812b] = {0};
 
-unsigned char data_rollred[n_ws2812b+1] = {0};//roll模式颜色缓存
+unsigned char data_rollred[n_ws2812b+1] = {0};//Roll mode color cache|roll模式颜色缓存
 unsigned char data_rollgreen[n_ws2812b+1] = {0};
 unsigned char data_rollblue[n_ws2812b+1] = {0};
 //========================================================================
-// 函数: void Delay50us()
-// 描述: 复位延迟。
-// 参数: none.
-// 返回: none.
-// 版本: VER1.0.0
-// 日期: 2018-12-20
-// 备注: 
+// Function:void Delay50us()|函数: void Delay50us()
+// Description:Reset delay.|描述: 复位延迟。
+// Parameter: none.|参数: none.
+// Return: none.|返回: none.
+// Version:VER1.0.0|版本: VER1.0.0
+// Date: 2018-12-20|日期: 2018-12-20
+// Note:|备注: 
 //========================================================================
-void Delay50us()		//复位延迟
+void Delay50us()		//Reset delay|复位延迟
 {
 	unsigned char i, j;
 
@@ -51,13 +51,14 @@ void Delay50us()		//复位延迟
 	} while (--i);
 }
 //========================================================================
-// 函数: void delay_ms(unsigned int ms)
-// 描述: 延时函数。
+// Function:void delay_ms(unsigned int ms)|函数: void delay_ms(unsigned int ms)
+// Description:Delay function.|描述: 延时函数。
+// Parameter: ms, the number of MS to be delayed, where only 1-10000 (10s) MS is supported
 // 参数: ms,要延时的ms数, 这里只支持1~10000 (10s) ms
-// 返回: none.
-// 版本: VER1.0.0
-// 日期: 2018-12-20
-// 备注: delay_ms(1000);//延迟1s
+// Return: none.|返回: none.
+// Version:VER1.0.0|版本: VER1.0.0
+// Date: 2018-12-20|日期: 2018-12-20
+// Note: delay_ms (1000); //delay 1s|备注: delay_ms(1000);//延迟1s
 //========================================================================
 void delay_ms_2812b(unsigned int ms){
   unsigned int k;
@@ -74,13 +75,13 @@ void delay_ms_2812b(unsigned int ms){
 	}
 	}
 //========================================================================
-// 函数: void rgb_high()
-// 描述: 1码，高电平850ns 低电平400ns （误差正负150ns）
-// 参数: 
-// 返回: none.
-// 版本: VER1.0.0
-// 日期: 2018-12-20
-// 备注: 
+// Function:void rgb_high()|函数: void rgb_high()
+// Description:|描述: 1 yard, 850ns high level, 400ns low level (error plus or minus 150ns)
+// Parameter:|参数: 
+// Return: none.|返回: none.
+// Version:VER1.0.0|版本: VER1.0.0
+// Date: 2018-12-20|日期: 2018-12-20
+// Note:|备注: 
 //========================================================================													   
 void rgb_high()
 {
@@ -91,13 +92,13 @@ void rgb_high()
 	 _nop_(); _nop_(); _nop_(); _nop_(); _nop_(); _nop_(); _nop_(); _nop_(); _nop_(); _nop_();
 }
 //========================================================================
-// 函数: void rgb_down()
-// 描述: 0码，高电平400ns 低电平850ns （误差正负150ns）
-// 参数: 
-// 返回: none.
-// 版本: VER1.0.0
-// 日期: 2018-12-20
-// 备注: 
+// Function:void rgb_down()|函数: void rgb_down()
+// Description: 0 yard, 400 ns high level, 850 ns low level (error plus or minus 150 ns)|描述: 0码，高电平400ns 低电平850ns （误差正负150ns）
+// Parameter:|参数: 
+// Return: none.|返回: none.
+// Version:VER1.0.0|版本: VER1.0.0
+// Date: 2018-12-20|日期: 2018-12-20
+// Note:|备注: 
 //========================================================================
 void rgb_down()
 {
@@ -109,13 +110,13 @@ void rgb_down()
 	 _nop_(); _nop_(); _nop_(); _nop_(); _nop_(); _nop_(); _nop_(); _nop_(); _nop_(); _nop_();  
 }
 //========================================================================
-// 函数: void rgb_reset()
-// 描述: 复位WS2812B，开始一次新的命令
-// 参数: 
-// 返回: none.
-// 版本: VER1.0.0
-// 日期: 2018-12-20
-// 备注: 
+// Function:void rgb_reset()|函数: void rgb_reset()
+// Description:Reset WS2812B and start a new command|描述: 复位WS2812B，开始一次新的命令
+// Parameter:|参数: 
+// Return: none.|返回: none.
+// Version:VER1.0.0|版本: VER1.0.0
+// Date: 2018-12-20|日期: 2018-12-20
+// Note:|备注: 
 //========================================================================
 void rgb_reset()
 {
@@ -123,19 +124,19 @@ void rgb_reset()
  Delay50us();
 }
 //========================================================================
-// 函数: void ws2812b_display(unsigned char green,unsigned char red,unsigned char blue)
-// 描述: 单个ws2812b控制
-// 参数:  green：绿色 0-255，red：红色 0-255 ，blue：蓝色 0-255，
-// 返回: none.
-// 版本: VER1.0.0
-// 日期: 2018-12-20
-// 备注: 
+// Function:void ws2812b_display(unsigned char green,unsigned char red,unsigned char blue)|函数: void ws2812b_display(unsigned char green,unsigned char red,unsigned char blue)
+// Description:Single ws2812b control|描述: 单个ws2812b控制
+// Parameters: green: green 0-255, red: red 0-255, blue: blue 0-255,|参数:  green：绿色 0-255，red：红色 0-255 ，blue：蓝色 0-255，
+// Return: none.|返回: none.
+// Version:VER1.0.0|版本: VER1.0.0
+// Date: 2018-12-20|日期: 2018-12-20
+// Note:|备注: 
 //========================================================================
 void ws2812b_display(unsigned char green,unsigned char red,unsigned char blue)
 
 {
 	  unsigned int n = 0;
-	  //发送green位
+	  //Sending green bits|发送green位
 		for(n=0;n<8;n++)
 		{
 			green<<=n;
@@ -149,7 +150,7 @@ void ws2812b_display(unsigned char green,unsigned char red,unsigned char blue)
 			}
 		}
 
-		//发送red位
+		//Sending red bits|发送red位
 		for(n=0;n<8;n++)
 		{
 			red<<=n;
@@ -162,7 +163,7 @@ void ws2812b_display(unsigned char green,unsigned char red,unsigned char blue)
 				rgb_down();
 			}		
 		}
-		//发送blue位
+		//Sending blue bits|发送blue位
 	  for(n=0;n<8;n++)
 		{
 			blue<<=n;
@@ -177,22 +178,23 @@ void ws2812b_display(unsigned char green,unsigned char red,unsigned char blue)
 		}
 }
 //========================================================================
-// 函数: void n_ws2812b_display(unsigned char display_mode,unsigned char green,unsigned char red,unsigned char blue)
-// 描述: n个ws2812b控制(n取决于n_ws2812b)
+// Function:void n_ws2812b_display(unsigned char display_mode,unsigned char green,unsigned char red,unsigned char blue)|函数: void n_ws2812b_display(unsigned char display_mode,unsigned char green,unsigned char red,unsigned char blue)
+// Description:n个ws2812b控制(n取决于n_ws2812b)|描述: n个ws2812b控制(n取决于n_ws2812b)
+// Parameters:Display_mode: Mode selection. See ws2812b.h for details on defining green: 0-255 green, red: 0-255 red, blue: 0-255 blue.
 // 参数: display_mode:模式选择，详情见ws2812b.h中定义 green：绿色 0-255，red：红色 0-255 ，blue：蓝色 0-255，
-// 返回: none.
-// 版本: VER1.0.0
-// 日期: 2018-12-20
-// 备注: 
+// Return: none.|返回: none.
+// Version:VER1.0.0|版本: VER1.0.0
+// Date: 2018-12-20|日期: 2018-12-20
+// Note:|备注: 
 //========================================================================
 void n_ws2812b_display(unsigned char display_mode,unsigned char green,unsigned char red,unsigned char blue)
 {
 	 unsigned char j ;
 	 unsigned char i ;
-	 unsigned char roll_i = 0;	 //顺向流水
-	 unsigned char rollback_i = 1;	 //反向流水
+	 unsigned char roll_i = 0;	 //Consequent flow|顺向流水
+	 unsigned char rollback_i = 1;	 //Reverse flow|反向流水
 
-/********************* 普通模式控制相关 *************************/
+/********************* General mode control correlation|普通模式控制相关 *************************/
 	  if( display_mode == normal)
 	  {
 	  delay_ms_2812b(1);
@@ -207,7 +209,7 @@ void n_ws2812b_display(unsigned char display_mode,unsigned char green,unsigned c
 		ws2812b_display(data_green[i],data_red[i],data_blue[i]);
 		}
 		}
-/********************* 正向流水模式控制相关 *************************/
+/********************* Control correlation of forward flow pattern|正向流水模式控制相关 *************************/
 		else if( display_mode == roll)
 		{
 		delay_ms_2812b(1);
@@ -231,7 +233,7 @@ void n_ws2812b_display(unsigned char display_mode,unsigned char green,unsigned c
 		}
 		}
 
-/********************* 反向流水模式控制相关 *************************/
+/********************* Reverse Pipeline Mode Control Relevance|反向流水模式控制相关 *************************/
 		else if ( display_mode ==  roll_back_1)
 		{
 		 delay_ms_2812b(1);
@@ -256,7 +258,7 @@ void n_ws2812b_display(unsigned char display_mode,unsigned char green,unsigned c
 	 delay_ms_2812b(1);	 
 	 n_ws2812b_display(normal,0x00,0x00,0x00);
 }
-/********************* 反向间隔流水模式控制相关 *************************/
+/********************* Reverse Interval Pipeline Mode Control Relevance|反向间隔流水模式控制相关 *************************/
 		else if ( display_mode ==  roll_back_2)
 		{
 		 delay_ms_2812b(1);
@@ -288,7 +290,7 @@ void n_ws2812b_display(unsigned char display_mode,unsigned char green,unsigned c
 		ws2812b_display(0,0,0);
 		}
         }
-/********************* 呼吸灯模式控制相关 *************************/
+/********************* Respiratory lamp mode control correlation|呼吸灯模式控制相关 *************************/
 		else if ( display_mode == breathe)
 		{
 		//未完待续

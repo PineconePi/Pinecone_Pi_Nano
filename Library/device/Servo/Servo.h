@@ -42,14 +42,16 @@
 #define Servo8 7
 
 //========================================================================
-// 结构体:  Servo_Channelx
-// 描述: 舵机 配置结构体。
+// Structures:Servo_Channelx|结构体:  Servo_Channelx
+// Description:The steering gear is equipped with a structure.|描述: 舵机 配置结构体。
+// Parameters: Servo_Channelx (PWM channel number parameter range: 1~3)
+// Servo_Angle (steering angle value) parameter range: 0-180)
 // 参数: Servo_Channelx	(PWM通道号	 参数范围：1~3)
 // 			 Servo_Angle		(舵机角度值			 参数范围：0~180 )
-// 返回: none.
-// 版本: VER1.0.0
-// 日期: 2018-12-20
-// 备注: 
+// Return: none.|返回: none.
+// Version：VER1.0.0|版本: VER1.0.0
+// Date: 2018-12-20|日期: 2018-12-20
+// Note:|备注: 
 //
 //========================================================================
 typedef struct{ 

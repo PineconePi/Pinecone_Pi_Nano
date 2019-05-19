@@ -21,13 +21,18 @@
 	**/
 #include "Servo.h"
 //========================================================================
-// 函数: void Servo_Control(unsigned char Servo_Number,Servo_InitTypeDef *Servox)
-// 描述: 舵机控制函数。
-// 参数: Servo_Number		(舵机编号 参数范围：1~8)
+// Function:void Servo_Control(unsigned char Servo_Number,Servo_InitTypeDef *Servox)|函数: void Servo_Control(unsigned char Servo_Number,Servo_InitTypeDef *Servox)
+// Description:|描述: 舵机控制函数。
+// Parameter:|参数: Servo_Number		(舵机编号 参数范围：1~8)
 //  	   *Servox：详情见Servo.h
-// 返回: None.
-// 版本: VER1.0.0
-// 日期: 2019-2-10
+// Return:None|返回: None.
+// Version：ver1.0.0|版本: VER1.0.0
+// Date: 2018-12-20|日期: 2018-12-20
+// Note: Control the steering gear to 0 degrees by following steps
+// Servo_InitTypeDef Servo_Init;
+// Servo_Init.Servo_Channelx=Servo_Channel1;
+// Servo_Init.Servo_Angle=0;
+// Servo_Control (Servo 1, &amp; Servo_Init);
 // 备注: 通过以下步骤控制舵机偏转到0度
 // 	Servo_InitTypeDef Servo_Init;
 //  Servo_Init.Servo_Channelx=Servo_Channel1;	
@@ -37,13 +42,13 @@
 void Servo_Control(unsigned char Servo_Number,Servo_InitTypeDef *Servox)
 { 
 	float PWM_Buf = 0,PWM_Pre = 0,PWM_Value;
-	float i;//转换系数，将角度转换为占空比
+	float i;//Conversion coefficient, converting angle to duty cycle|转换系数，将角度转换为占空比
 	i = 100/180;
 	PWM_Buf = ( 1500000 / Servo_Frequency );
 	PWM_Value = 1000 - ( 25+(0.55*Servox->Servo_Angle));
 	PWM_Pre = (PWM_Value/1000);
-	P_SW2 = 0x80;																//允许访问扩展RAM（STC新增）
-	PWMCKS = 0x0f;															//系统时钟16分频
+	P_SW2 = 0x80;																//Allow access to extended RAM (STC added)|允许访问扩展RAM（STC新增）
+	PWMCKS = 0x0f;															//System Clock 16 Dividing Frequency|系统时钟16分频
 	PWMC = PWM_Buf;	
 	switch(Servo_Number)
 	{
@@ -57,6 +62,6 @@ void Servo_Control(unsigned char Servo_Number,Servo_InitTypeDef *Servox)
 		case 7 : PWM7T1 = 0x0000;PWM7T2 = PWM_Buf*PWM_Pre;PWM7CR= 0x80|Servox->Servo_Channelx;break;
 		default:break;
 	}
-	P_SW2 = 0x00;																//禁止访问扩展RAM（STC新增）
-	PWMCR = 0x80;                               //启动PWM模块
+	P_SW2 = 0x00;																//Disallow Access to Extended RAM (STC Added)|禁止访问扩展RAM（STC新增）
+	PWMCR = 0x80;                               //Start PWM module启动PWM模块
 }

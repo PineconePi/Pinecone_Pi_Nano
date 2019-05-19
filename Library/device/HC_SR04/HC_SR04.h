@@ -24,10 +24,10 @@
 
 #include "system.h"
 
-#define Echo_Pin P12   //Echo端口
-#define Trig_Pin P13   //Trig端口
+#define Echo_Pin P12   //Echo port|Echo端口
+#define Trig_Pin P13   //Trig port|Trig端口
 
-void HC_SR04_Init(void);//初始化HCSR04所需硬件
-int HC_SR04_Loop(void); //获取当前距离值
+void HC_SR04_Init(void);//Hardware required to initialize HCSR04|初始化HCSR04所需硬件
+int HC_SR04_Loop(void); //Get the current distance value|获取当前距离值
 
 #endif
