@@ -1,0 +1,116 @@
+C51 COMPILER V9.01   DIGITALTUBE                                                           05/20/2019 10:29:15 PAGE 1   
+
+
+C51 COMPILER V9.01, COMPILATION OF MODULE DIGITALTUBE
+OBJECT MODULE PLACED IN .\Objects\digitaltube.obj
+COMPILER INVOKED BY: E:\KEIL14开发程序\C51\BIN\C51.EXE Library\device\digital tube\digitaltube.c LARGE OPTIMIZE(8,SPEED)
+                    - BROWSE INCDIR(.\Library\device\digital tube;.\Library\device\HC_SR04;.\Library\device\MP3Player;.\Library\device\Servo;
+                    -.\Library\device\WS2812B;.\Library\system\ADC;.\Library\system\delay;.\Library\system\EEPROM;.\Library\system\EXTI;.\Lib
+                    -rary\system\GPIO;.\Library\system\IIC;.\Library\system\PCA;.\Library\system\PWM;.\Library\system\SYSTEM(Important docume
+                    -nts）;.\Library\system\TIMER;.\Library\system\UART;.\Library\system\WatchDog) DEBUG OBJECTEXTEND PRINT(.\Listings\digita
+                    -ltube.lst) TABS(2) OBJECT(.\Objects\digitaltube.obj)
+
+line level    source
+
+   1          /**
+   2            ******************************************************************************
+   3            * @file    digitaltube.c
+   4            * @author  PineconePi
+   5            * @version V1.0.0
+   6            * @date    20-December-2018
+   7            * @brief  This file is used to set up  digital tubes 
+   8            * @License:GNU General Public License v3.0         
+   9            ******************************************************************************
+  10            * @attention
+  11            *
+  12            *
+  13            *  
+  14            * 
+  15            * 
+  16            * 
+  17            * 
+  18            *
+  19            * 
+  20            ******************************************************************************
+  21            **/
+  22          #include "digitaltube.h"
+  23          
+  24          unsigned char Segment_code[]={0x3f,0x06,0x5b,0x4f,0x66,0x6d,0x7d,0x07,0x7f,0x6f};  //数码管段表
+  25          
+  26          //========================================================================
+  27          // 函数: void digitaltube_enable(unsigned char SMGx,unsigned char Enable_Disable)
+  28          // 描述: 使能数码管。
+  29          // 参数: SMGx:数码管序号
+  30          //       Enable_Disable：是否使能
+  31          //       
+  32          // 返回: 
+  33          // 版本: VER1.0.0
+  34          // 日期: 2018-12-20
+  35          // 作者: PineconePi
+  36          // 备注:
+  37          //  
+  38          //  
+  39          //  
+  40          //  
+  41          //  
+  42          //========================================================================
+  43          void Digitaltube_Enable(unsigned char SMGx,unsigned char Enable_Disable)
+  44          {
+  45   1        if(SMGx==SMG1){
+  46   2          if(Enable_Disable == ENABLE)
+  47   2            P44 = 0;
+  48   2          else if(Enable_Disable == DISABLE)
+  49   2            P44 = 1;
+  50   2        }
+C51 COMPILER V9.01   DIGITALTUBE                                                           05/20/2019 10:29:15 PAGE 2   
+
+  51   1        else if(SMGx==SMG2)
+  52   1        {
+  53   2              if(Enable_Disable == ENABLE)
+  54   2               P43 = 0;
+  55   2          else if(Enable_Disable == DISABLE)
+  56   2               P43 = 1;
+  57   2        }
+  58   1      }
+  59          //========================================================================
+  60          // 函数: void digitaltube_display(unsigned char Decimal_point_Enable,unsigned char dat)
+  61          // 描述: 是否开启小数点，数码管显示。
+  62          // 参数: Decimal_point_Enable:是否开启小数点
+  63          //       dat：显示的数 （0-9）
+  64          //       
+  65          // 返回: 
+  66          // 版本: VER1.0.0
+  67          // 日期: 2018-12-20
+  68          // 作者: PineconePi
+  69          // 备注:
+  70          //  
+  71          //  
+  72          //  
+  73          //  
+  74          //  
+  75          //========================================================================
+  76          void Digitaltube_Display(unsigned char Decimal_point_Enable,unsigned char dat)
+  77          {
+  78   1        if(Decimal_point_Enable == ENABLE)
+  79   1        {
+  80   2          P1 = (Segment_code[dat]|0x80);
+  81   2        }
+  82   1        else if(Decimal_point_Enable == DISABLE)
+  83   1        {
+  84   2          P1 = Segment_code[dat];
+  85   2        }
+  86   1      } 
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =     71    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =     10    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =   ----    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

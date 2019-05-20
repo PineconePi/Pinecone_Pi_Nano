@@ -1,0 +1,353 @@
+C51 COMPILER V9.01   UART                                                                  05/20/2019 10:29:18 PAGE 1   
+
+
+C51 COMPILER V9.01, COMPILATION OF MODULE UART
+OBJECT MODULE PLACED IN .\Objects\uart.obj
+COMPILER INVOKED BY: E:\KEIL14开发程序\C51\BIN\C51.EXE Library\system\UART\uart.c LARGE OPTIMIZE(8,SPEED) BROWSE INCDIR(
+                    -.\Library\device\digital tube;.\Library\device\HC_SR04;.\Library\device\MP3Player;.\Library\device\Servo;.\Library\devic
+                    -e\WS2812B;.\Library\system\ADC;.\Library\system\delay;.\Library\system\EEPROM;.\Library\system\EXTI;.\Library\system\GPI
+                    -O;.\Library\system\IIC;.\Library\system\PCA;.\Library\system\PWM;.\Library\system\SYSTEM(Important documents）;.\Library
+                    -\system\TIMER;.\Library\system\UART;.\Library\system\WatchDog) DEBUG OBJECTEXTEND PRINT(.\Listings\uart.lst) TABS(2) OBJ
+                    -ECT(.\Objects\uart.obj)
+
+line level    source
+
+   1          /**
+   2            ******************************************************************************
+   3            * @file    uart.c
+   4            * @author  PineconePi
+   5            * @version V1.0.0
+   6            * @date    20-December-2018
+   7            * @brief  This file is used to configure the serial port 
+   8            * @License:GNU General Public License v3.0         
+   9            ******************************************************************************
+  10            * @attention
+  11            *
+  12            *Serial Interrupt Processing Function in uart.c 
+  13            *  
+  14            * 
+  15            * 
+  16            * 
+  17            * 
+  18            *
+  19            * 
+  20            ******************************************************************************
+  21            **/
+  22          #include "UART.h"
+  23          
+  24          
+  25          COMx_Define COM1,COM2;
+  26          unsigned char xdata TX1_Buffer[COM_TX1_Lenth];  //发送缓冲
+  27          unsigned char   xdata RX1_Buffer[COM_RX1_Lenth];  //接收缓冲
+  28          unsigned char xdata TX2_Buffer[COM_TX2_Lenth];  //发送缓冲
+  29          unsigned char   xdata RX2_Buffer[COM_RX2_Lenth];  //接收缓冲
+  30          
+  31          //========================================================================
+  32          // 函数: void CLR_RTI2()
+  33          // 描述: 标志位清除.
+  34          // 参数: 
+  35          //       
+  36          //       
+  37          // 返回: 
+  38          // 版本: VER1.0.0
+  39          // 日期: 2018-12-20
+  40          // 作者: PineconePi
+  41          // 备注: 
+  42          //  
+  43          //  
+  44          //  
+  45          //  
+  46          //  
+  47          //========================================================================
+  48          void CLR_RTI2()
+  49          {
+  50   1        if (S2CON & 0x02)
+C51 COMPILER V9.01   UART                                                                  05/20/2019 10:29:18 PAGE 2   
+
+  51   1          {
+  52   2              S2CON &= ~0x02;                         //清中断标志
+  53   2          }
+  54   1          if (S2CON & 0x01)
+  55   1          {
+  56   2              S2CON &= ~0x01;                         //清中断标志
+  57   2          }
+  58   1      }
+  59          
+  60          /********************* UART1中断函数************************/
+  61          void UART1_int (void) interrupt 4
+  62          {
+  63   1        if(RI)
+  64   1        {
+  65   2          RI = 0;
+  66   2          if(COM1.B_RX_OK == 0)
+  67   2          {
+  68   3            if(COM1.RX_Cnt >= COM_RX1_Lenth)  COM1.RX_Cnt = 0;
+  69   3            RX1_Buffer[COM1.RX_Cnt++] = SBUF;
+  70   3            COM1.RX_TimeOut = TimeOutSet1;
+  71   3          }
+  72   2        }
+  73   1      
+  74   1        if(TI)
+  75   1        {
+  76   2          TI = 0;
+  77   2          if(COM1.TX_read != COM1.TX_write)
+  78   2          {
+  79   3            SBUF = TX1_Buffer[COM1.TX_read];
+  80   3            if(++COM1.TX_read >= COM_TX1_Lenth)   COM1.TX_read = 0;
+  81   3          }
+  82   2          else  COM1.B_TX_busy = 0;
+  83   2        }
+  84   1      }
+  85          
+  86          /********************* UART2中断函数************************/
+  87          void UART2_int (void) interrupt 8
+  88          {
+  89   1        if(S2RI)
+  90   1        {
+  91   2          CLR_RTI2();
+  92   2          if(COM2.B_RX_OK == 0)
+  93   2          {
+  94   3            if(COM2.RX_Cnt >= COM_RX2_Lenth)  COM2.RX_Cnt = 0;
+  95   3            RX2_Buffer[COM2.RX_Cnt++] = S2BUF;
+  96   3            COM2.RX_TimeOut = TimeOutSet2;
+  97   3          }
+  98   2        }
+  99   1      
+ 100   1        if(S2TI)
+ 101   1        {
+ 102   2          CLR_RTI2();
+ 103   2          if(COM2.TX_read != COM2.TX_write)
+ 104   2          {
+ 105   3            S2BUF = TX2_Buffer[COM2.TX_read];
+ 106   3            if(++COM2.TX_read >= COM_TX2_Lenth)   COM2.TX_read = 0;
+ 107   3          }
+ 108   2          else  COM2.B_TX_busy = 0;
+ 109   2        }
+ 110   1      
+ 111   1      }
+ 112          //========================================================================
+C51 COMPILER V9.01   UART                                                                  05/20/2019 10:29:18 PAGE 3   
+
+ 113          // 函数: unsigned char USART_Configuration(unsigned char UARTx, COMx_InitDefine *COMx)
+ 114          // 描述: 串口初始化程序.
+ 115          // 参数:  请参考uart.c里面的结构体定义
+ 116          //       
+ 117          //       
+ 118          // 返回: 
+ 119          // 版本: VER1.0.0
+ 120          // 日期: 2018-12-20
+ 121          // 作者: PineconePi
+ 122          // 备注:
+ 123          //  
+ 124          //  
+ 125          //  
+ 126          //  
+ 127          //  
+ 128          //========================================================================
+ 129          unsigned char USART_Configuration(unsigned char UARTx, COMx_InitDefine *COMx)
+ 130          {
+ 131   1        unsigned char i;
+ 132   1        unsigned long j;
+ 133   1        
+ 134   1        if(UARTx == USART1)
+ 135   1        {
+ 136   2          COM1.id = 1;
+ 137   2          COM1.TX_read    = 0;
+ 138   2          COM1.TX_write   = 0;
+ 139   2          COM1.B_TX_busy  = 0;
+ 140   2          COM1.RX_Cnt     = 0;
+ 141   2          COM1.RX_TimeOut = 0;
+ 142   2          COM1.B_RX_OK    = 0;
+ 143   2          for(i=0; i<COM_TX1_Lenth; i++)  TX1_Buffer[i] = 0;
+ 144   2          for(i=0; i<COM_RX1_Lenth; i++)  RX1_Buffer[i] = 0;
+ 145   2      
+ 146   2          if(COMx->UART_Mode > UART_9bit_BRTx)  return 2; //模式错误
+ 147   2          if(COMx->UART_Polity == PolityHigh)   PS = 1; //高优先级中断
+ 148   2          else                  PS = 0; //低优先级中断
+ 149   2          SCON = (SCON & 0x3f) | COMx->UART_Mode;
+ 150   2          if((COMx->UART_Mode == UART_9bit_BRTx) ||(COMx->UART_Mode == UART_8bit_BRTx)) //可变波特率
+ 151   2          {
+ 152   3            j = (MAIN_Fosc / 4) / COMx->UART_BaudRate;  //按1T计算
+ 153   3            if(j >= 65536UL)  return 2; //错误
+ 154   3            j = 65536UL - j;
+ 155   3            if(COMx->UART_BRT_Use == BRT_Timer1)
+ 156   3            {
+ 157   4              TR1 = 0;
+ 158   4              AUXR &= ~0x01;    //S1 BRT Use Timer1;
+ 159   4              TMOD &= ~(1<<6);  //Timer1 set As Timer
+ 160   4              TMOD &= ~0x30;    //Timer1_16bitAutoReload;
+ 161   4              AUXR |=  (1<<6);  //Timer1 set as 1T mode
+ 162   4              TH1 = (unsigned char)(j>>8);
+ 163   4              TL1 = (unsigned char)j;
+ 164   4              ET1 = 0;  //禁止中断
+ 165   4              TMOD &= ~0x40;  //定时
+ 166   4              INTCLKO &= ~0x02; //不输出时钟
+ 167   4              TR1  = 1;
+ 168   4            }
+ 169   3            else if(COMx->UART_BRT_Use == BRT_Timer2)
+ 170   3            {
+ 171   4              AUXR &= ~(1<<4);  //Timer stop
+ 172   4              AUXR |= 0x01;   //S1 BRT Use Timer2;
+ 173   4              AUXR &= ~(1<<3);  //Timer2 set As Timer
+ 174   4              AUXR |=  (1<<2);  //Timer2 set as 1T mode
+C51 COMPILER V9.01   UART                                                                  05/20/2019 10:29:18 PAGE 4   
+
+ 175   4              TH2 = (unsigned char)(j>>8);
+ 176   4              TL2 = (unsigned char)j;
+ 177   4              IE2  &= ~(1<<2);  //禁止中断
+ 178   4              AUXR &= ~(1<<3);  //定时
+ 179   4              AUXR |=  (1<<4);  //Timer run enable
+ 180   4            }
+ 181   3            else return 2;  //错误
+ 182   3          }
+ 183   2          else if(COMx->UART_Mode == UART_ShiftRight)
+ 184   2          {
+ 185   3            if(COMx->BaudRateDouble == ENABLE)  AUXR |=  (1<<5);  //固定波特率SysClk/2
+ 186   3            else                AUXR &= ~(1<<5);  //固定波特率SysClk/12
+ 187   3          }
+ 188   2          else if(COMx->UART_Mode == UART_9bit) //固定波特率SysClk*2^SMOD/64
+ 189   2          {
+ 190   3            if(COMx->BaudRateDouble == ENABLE)  PCON |=  (1<<7);  //固定波特率SysClk/32
+ 191   3            else                PCON &= ~(1<<7);  //固定波特率SysClk/64
+ 192   3          }
+ 193   2          if(COMx->UART_Interrupt == ENABLE)  ES = 1; //允许中断
+ 194   2          else                ES = 0; //禁止中断
+ 195   2          if(COMx->UART_RxEnable == ENABLE) REN = 1;  //允许接收
+ 196   2          else                REN = 0;  //禁止接收
+ 197   2          P_SW1 = (P_SW1 & 0x3f) | (COMx->UART_P_SW & 0xc0);  //切换IO
+ 198   2          return  0;
+ 199   2        }
+ 200   1      
+ 201   1        if(UARTx == USART2)
+ 202   1        {
+ 203   2          COM2.id = 2;
+ 204   2          COM2.TX_read    = 0;
+ 205   2          COM2.TX_write   = 0;
+ 206   2          COM2.B_TX_busy  = 0;
+ 207   2          COM2.RX_Cnt     = 0;
+ 208   2          COM2.RX_TimeOut = 0;
+ 209   2          COM2.B_RX_OK    = 0;
+ 210   2          for(i=0; i<COM_TX2_Lenth; i++)  TX2_Buffer[i] = 0;
+ 211   2          for(i=0; i<COM_RX2_Lenth; i++)  RX2_Buffer[i] = 0;
+ 212   2      
+ 213   2          if((COMx->UART_Mode == UART_9bit_BRTx) ||(COMx->UART_Mode == UART_8bit_BRTx)) //可变波特率
+ 214   2          {
+ 215   3            if(COMx->UART_Polity == PolityHigh)   IP2 |=  1;  //高优先级中断
+ 216   3            else                  IP2 &= ~1;  //低优先级中断
+ 217   3            if(COMx->UART_Mode == UART_9bit_BRTx) S2CON |=  (1<<7); //9bit
+ 218   3            else                  S2CON &= ~(1<<7); //8bit
+ 219   3            j = (MAIN_Fosc / 4) / COMx->UART_BaudRate;  //按1T计算
+ 220   3            if(j >= 65536UL)  return 2; //错误
+ 221   3            j = 65536UL - j;
+ 222   3            AUXR &= ~(1<<4);  //Timer stop
+ 223   3            AUXR &= ~(1<<3);  //Timer2 set As Timer
+ 224   3            AUXR |=  (1<<2);  //Timer2 set as 1T mode
+ 225   3            TH2 = (unsigned char)(j>>8);
+ 226   3            TL2 = (unsigned char)j;
+ 227   3            IE2  &= ~(1<<2);  //禁止中断
+ 228   3            AUXR |=  (1<<4);  //Timer run enable
+ 229   3          }
+ 230   2          else  return 2; //模式错误
+ 231   2          if(COMx->UART_Interrupt == ENABLE)  IE2   |=  1;    //允许中断
+ 232   2          else                IE2   &= ~1;    //禁止中断
+ 233   2          if(COMx->UART_RxEnable == ENABLE) S2CON |=  (1<<4); //允许接收
+ 234   2          else                S2CON &= ~(1<<4); //禁止接收
+ 235   2          P_SW2 = (P_SW2 & ~1) | (COMx->UART_P_SW & 0x01);  //切换IO
+ 236   2        }
+C51 COMPILER V9.01   UART                                                                  05/20/2019 10:29:18 PAGE 5   
+
+ 237   1      }
+ 238          
+ 239          
+ 240          //========================================================================
+ 241          // 函数: void TX1_write2buff(unsigned char dat)
+ 242          // 描述: 串口1发送.
+ 243          // 参数: dat:要发送的数据
+ 244          //       
+ 245          //       
+ 246          // 返回: 
+ 247          // 版本: VER1.0.0
+ 248          // 日期: 2018-12-20
+ 249          // 作者: PineconePi
+ 250          // 备注: 
+ 251          //  
+ 252          //  
+ 253          //  
+ 254          //  
+ 255          //  
+ 256          //========================================================================
+ 257          
+ 258          void TX1_write2buff(unsigned char dat)  //写入发送缓冲，指针+1
+ 259          {
+ 260   1        TX1_Buffer[COM1.TX_write] = dat;  //装发送缓冲
+ 261   1        if(++COM1.TX_write >= COM_TX1_Lenth)  COM1.TX_write = 0;
+ 262   1      
+ 263   1        if(COM1.B_TX_busy == 0)   //空闲
+ 264   1        {  
+ 265   2          COM1.B_TX_busy = 1;   //标志忙
+ 266   2          TI = 1;         //触发发送中断
+ 267   2        }
+ 268   1      }
+ 269          //========================================================================
+ 270          // 函数: void TX1_write2buff(unsigned char dat)
+ 271          // 描述: 串口2发送.
+ 272          // 参数: dat:要发送的数据
+ 273          //       
+ 274          //       
+ 275          // 返回: 
+ 276          // 版本: VER1.0.0
+ 277          // 日期: 2018-12-20
+ 278          // 作者: PineconePi
+ 279          // 备注: 
+ 280          //  
+ 281          //  
+ 282          //  
+ 283          //  
+ 284          //  
+ 285          //========================================================================
+ 286          
+ 287          void TX2_write2buff(unsigned char dat)  //写入发送缓冲，指针+1
+ 288          {
+ 289   1        TX2_Buffer[COM2.TX_write] = dat;  //装发送缓冲
+ 290   1        if(++COM2.TX_write >= COM_TX2_Lenth)  COM2.TX_write = 0;
+ 291   1      
+ 292   1        if(COM2.B_TX_busy == 0)   //空闲
+ 293   1        {  
+ 294   2          COM2.B_TX_busy = 1;   //标志忙
+ 295   2          CLR_RTI2();       //触发发送中断
+ 296   2        }
+ 297   1      }
+ 298          
+C51 COMPILER V9.01   UART                                                                  05/20/2019 10:29:18 PAGE 6   
+
+ 299          void PrintString1(unsigned char *puts)
+ 300          {
+ 301   1          for (; *puts != 0;  puts++)  TX1_write2buff(*puts);   //遇到停止符0结束
+ 302   1      }
+ 303          
+ 304          void PrintString2(unsigned char *puts)
+ 305          {
+ 306   1          for (; *puts != 0;  puts++)  TX2_write2buff(*puts);   //遇到停止符0结束
+ 307   1      }
+ 308          
+ 309          
+ 310          
+ 311          
+ 312          
+ 313          
+ 314          
+*** WARNING C291 IN LINE 237 OF LIBRARY\SYSTEM\UART\UART.C: not every exit path returns a value
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =   1252    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =    526       9
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =   ----    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  1 WARNING(S),  0 ERROR(S)
