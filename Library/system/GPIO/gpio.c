@@ -26,7 +26,7 @@
 //========================================================================
 // Function:unsigned char	GPIO_Inilize(unsigned char GPIO, GPIO_InitTypeDef *GPIOx)|函数: unsigned char	GPIO_Inilize(unsigned char GPIO, GPIO_InitTypeDef *GPIOx)
 // Description:Initialize the IO port.|描述: 初始化IO口.
-// Parameter:: GPIO：GPIO_P0:P0 pins (8)，GPIO_P1:P1 pins (8)，GPIO_P2:P2 pins (8)，GPIO_P3:P3 pins (8)，
+// Parameter: GPIO：GPIO_P0:P0 pins (8)，GPIO_P1:P1 pins (8)，GPIO_P2:P2 pins (8)，GPIO_P3:P3 pins (8)，
 //             GPIO_P4:P4 pins (8)，GPIO_P5:P5 pins (8)，
 //			   GPIOx: For structural parameters, please refer to the structure description in gpio.h..
 // 参数: GPIO：GPIO_P0:P0引脚（8个），GPIO_P1:P1引脚（8个），GPIO_P2:P2引脚（8个），GPIO_P3:P3引脚（8个），

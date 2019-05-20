@@ -88,7 +88,7 @@ void HC_SR04_Start()
 	Trig_Pin = 1;
 }
 //========================================================================
-// Function:nt HC_SR04_Loop()|函数: int HC_SR04_Loop()
+// Function:int HC_SR04_Loop()|函数: int HC_SR04_Loop()
 // Description:Return distance.|描述: 返回距离。
 // Parameter:|参数:  
 // Return: distance: distance (in centimeters).|返回: distance:距离（单位：厘米）.
