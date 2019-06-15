@@ -64,7 +64,7 @@ void	ADC_Inilize(ADC_InitTypeDef *ADCx)
 //========================================================================
 // Function:void ADC_PowerControl(unsigned char pwr)|函数: void	ADC_PowerControl(unsigned char pwr)
 // Description:ADC power control program.|描述: ADC电源控制程序.
-// Parameter:pwr: power control,ENABLE OR DISABLE.|参数: pwr: 电源控制,ENABLE或DISABLE.
+// Parameter:Pwr: power control,ENABLE OR DISABLE.|参数: Pwr: 电源控制,ENABLE或DISABLE.
 //       
 //       
 // Return:|返回: 
@@ -78,16 +78,16 @@ void	ADC_Inilize(ADC_InitTypeDef *ADCx)
 //	
 //	
 //========================================================================
-void	ADC_PowerControl(unsigned char pwr)
+void	ADC_PowerControl(unsigned char Pwr)
 {
-	if(pwr == ENABLE)	ADC_CONTR |= 0x80;
+	if(Pwr == ENABLE)	ADC_CONTR |= 0x80;
 	else				ADC_CONTR &= 0x7f;
 }
 
 //========================================================================
 // Function:unsigned int Get_ADC10bitResult(unsigned char channel)|函数: unsigned int	Get_ADC10bitResult(unsigned char channel)
 // Description:Query the ADC results once.|描述: 查询一次ADC结果.
-// Parameter: Select the ADC to convert. |参数: channel: 选择要转换的ADC.
+// Parameter: Select the ADC to convert. |参数: Channel: 选择要转换的ADC.
 //       
 //       
 // Return:ADC results.|返回: ADC结果.
@@ -101,16 +101,16 @@ void	ADC_PowerControl(unsigned char pwr)
 //	
 //	
 //========================================================================
-unsigned int	Get_ADC10bitResult(unsigned char channel)	//channel = 0~7
+unsigned int	Get_ADC10bitResult(unsigned char Channel)	//Channel = 0~7
 {
 	unsigned int	adc;
 	unsigned char	i;
 
-	if(channel > ADC_CH7)	return	1024;	//错误,返回1024,调用的程序判断	
+	if(Channel > ADC_CH7)	return	1024;	//错误,返回1024,调用的程序判断	
 	ADC_RES = 0;
 	ADC_RESL = 0;
 
-	ADC_CONTR = (ADC_CONTR & 0xe0) | ADC_START | channel; 
+	ADC_CONTR = (ADC_CONTR & 0xe0) | ADC_START | Channel; 
 	_nop_();	
   _nop_();	//对ADC_CONTR操作后要2T之后才能访问
 

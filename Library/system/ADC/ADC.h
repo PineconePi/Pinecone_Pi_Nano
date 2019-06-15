@@ -68,7 +68,7 @@ typedef struct
 } ADC_InitTypeDef;
 
 void	ADC_Inilize(ADC_InitTypeDef *ADCx);
-void	ADC_PowerControl(unsigned char pwr);
-unsigned int		Get_ADC10bitResult(unsigned char channel);	//channel = 0~7
+void	ADC_PowerControl(unsigned char Pwr);
+unsigned int		Get_ADC10bitResult(unsigned char Channel);	//channel = 0~7
 
 #endif
