@@ -21,7 +21,7 @@
 	**/
 #ifndef __DELAY_H_
 #define __DELAY_H_
-void delay_ms(unsigned int ms);//Millisecond delay|∫¡√Î—”≥Ÿ
-void delay_us(unsigned int us);//Microsecond delay|Œ¢√Î—”≥Ÿ
+void Delay_Ms(unsigned int Ms);//Millisecond delay|∫¡√Î—”≥Ÿ
+void Delay_Us(unsigned int Us);//Microsecond delay|Œ¢√Î—”≥Ÿ
 
 #endif
