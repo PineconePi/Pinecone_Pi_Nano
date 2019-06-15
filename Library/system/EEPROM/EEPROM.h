@@ -35,9 +35,9 @@
 
 
 void	DisableEEPROM(void);//Turn off IAP function|关闭IAP功能
-char EEPROM_read(int addr);//Read a byte of data to address addr|向地址addr中读取一个字节数据
-void EEPROM_write(int addr, char dat);//Write a byte data dat to address addr|向地址addr中写入一个字节数据dat
-void EEPROM_Erase(int addr);//Data erase for address addr|对地址addr进行数据擦出
+char EEPROM_Read(int Addr);//Read a byte of data to address addr|向地址addr中读取一个字节数据
+void EEPROM_Write(int Addr, char Dat);//Write a byte data dat to address addr|向地址addr中写入一个字节数据dat
+void EEPROM_Erase(int Addr);//Data erase for address addr|对地址addr进行数据擦出
 
 
 #endif
