@@ -1,0 +1,11 @@
+".\main.obj",
+".\gizwits_product.obj",
+".\gizwits_protocol.obj",
+".\hal_uart.obj",
+".\Hal_key.obj",
+".\common.obj",
+".\dataPointTools.obj",
+".\ringbuffer.obj",
+".\Delay.obj" 
+TO "STC15F2K60S2" 
+RAMSIZE(256) 

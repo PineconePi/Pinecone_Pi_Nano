@@ -1,0 +1,361 @@
+C51 COMPILER V9.01   COMMON                                                                06/26/2019 15:58:53 PAGE 1   
+
+
+C51 COMPILER V9.01, COMPILATION OF MODULE COMMON
+OBJECT MODULE PLACED IN .\common.obj
+COMPILER INVOKED BY: E:\KEIL14¿ª·¢³ÌÐò\C51\BIN\C51.EXE ..\Utils\common.c LARGE OPTIMIZE(8,SPEED) BROWSE INCDIR(..\Hal\Ha
+                    -l_Usart;..\Utils;..\Hal;..\User;..\Gizwits;..\Hal\Hal_key;..\SYSTEM;..\Lib\Delay) DEBUG OBJECTEXTEND PRINT(.\common.lst)
+                    - TABS(2) OBJECT(.\common.obj)
+
+line level    source
+
+   1          /**
+   2          ************************************************************
+   3          * @file         common.c
+   4          * @brief        Generic tools
+   5          * @author       Gizwits
+   6          * @date         2017-07-19
+   7          * @version      V03030000
+   8          * @copyright    Gizwits
+   9          *
+  10          * @note         Gizwits is only for smart hardware
+  11          *               Gizwits Smart Cloud for Smart Products
+  12          *               Links | Value Added | Open | Neutral | Safety | Own | Free | Ecology
+  13          *               www.gizwits.com
+  14          *
+  15          ***********************************************************/
+  16          #include "common.h"
+*** WARNING C318 IN LINE 24 OF ..\UTILS\COMMON.H: can't open file 'stdbool.h'
+*** WARNING C245 IN LINE 108 OF ..\UTILS\COMMON.H: unknown #pragma, line ignored
+*** WARNING C245 IN LINE 119 OF ..\UTILS\COMMON.H: unknown #pragma, line ignored
+  17          
+  18          /**
+  19          * @brief Checksum calculation
+  20          *
+  21          * @param [in] buf   : data 
+  22          * @param [in] len   : data len
+  23          *
+  24          * @return sum : Checksum
+  25          */
+  26          uint8_t ICACHE_FLASH_ATTR gizProtocolSum(uint8_t *buf, uint32_t len)
+  27          {
+  28   1          uint8_t     sum = 0;
+  29   1          uint32_t    i = 0;
+  30   1      
+  31   1          if(buf == NULL || len <= 0)
+  32   1          {
+  33   2              return 0;
+  34   2          }
+  35   1      
+  36   1          for(i=2; i<len-1; i++)
+  37   1          {
+  38   2              sum += buf[i];
+  39   2          }
+  40   1      
+  41   1          return sum;
+  42   1      }
+  43          
+  44          /**
+  45           * htons unsigned short -> Network byte order
+  46           * ntohs Network byte order -> unsigned short
+  47           */
+  48          uint16_t ICACHE_FLASH_ATTR exchangeBytes(uint16_t value)
+  49          {
+  50   1        /*
+C51 COMPILER V9.01   COMMON                                                                06/26/2019 15:58:53 PAGE 2   
+
+  51   1          uint16_t tmp_value;
+  52   1          uint8_t *index_1, *index_2;
+  53   1      
+  54   1          index_1 = (uint8_t *)&tmp_value;
+  55   1          index_2 = (uint8_t *)&value;
+  56   1      
+  57   1          *index_1 = *(index_2+1);
+  58   1          *(index_1+1) = *index_2;
+  59   1      
+  60   1          return tmp_value;
+  61   1        */
+  62   1      }
+*** WARNING C173 IN LINE 62 OF ..\UTILS\COMMON.C: missing return-expression
+*** WARNING C280 IN LINE 48 OF ..\UTILS\COMMON.C: 'value': unreferenced local variable
+  63          
+  64          /**
+  65           * htonl unsigned long  -> Network byte order
+  66           * ntohl Network byte order -> unsigned long
+  67           */
+  68          uint32_t ICACHE_FLASH_ATTR exchangeWord(uint32_t value)
+  69          {
+  70   1          return ((value & 0x000000FF) << 24) |
+  71   1                 ((value & 0x0000FF00) << 8) |
+  72   1                 ((value & 0x00FF0000) >> 8) |
+  73   1                 ((value & 0xFF000000) >> 24) ;
+  74   1      }
+  75          
+  76          /**
+  77          * @brief Character to binary
+  78          * @param[in]   A  : Character A
+  79          * @param[out]  B  : Character B
+  80          * @return     : Accounting for one byte of binary data
+  81          */
+  82          uint8_t ICACHE_FLASH_ATTR char2hex(char A , char B)
+  83          {
+  84   1          uint8_t a ,b = 0;
+  85   1          if(A>='0'&&A<='9')
+  86   1          {
+  87   2              a=A-'0';
+  88   2          }
+  89   1          else if(A>='A' && A<='F')
+  90   1          {
+  91   2              a=A-'A'+10;
+  92   2          }
+  93   1          else if(A>='a' && A<='f')
+  94   1          {
+  95   2              a=A-'a'+10;
+  96   2          }
+  97   1      
+  98   1          if(B>='0'&&B<='9')
+  99   1          {
+ 100   2              b=B-'0';
+ 101   2          }
+ 102   1          else if(B>='A' && B<='F')
+ 103   1          {
+ 104   2              b=B-'A'+10;
+ 105   2          }
+ 106   1          else if( B>='a' && B<='f')
+ 107   1          {
+ 108   2              b=B-'a'+10;
+ 109   2          }
+ 110   1      
+C51 COMPILER V9.01   COMMON                                                                06/26/2019 15:58:53 PAGE 3   
+
+ 111   1          return (a<<4)+b;
+ 112   1      }
+ 113          
+ 114          /**
+ 115          * @brief checkStringIsNotZero
+ 116          
+ 117          * Check String Is Zero ,Or Not
+ 118          
+ 119          * @param[in]    : String
+ 120          * @param[out]   :
+ 121          * @return       : 0,String Not All Zero
+ 122          *                -1,Input Illegal
+ 123          *                 1,String All Zero
+ 124          */
+ 125          int8_t ICACHE_FLASH_ATTR checkStringIsNotZero(const char *gizdata)
+ 126          {
+ 127   1          uint32_t i = 0;
+ 128   1          uint32_t dataLen = 0;
+ 129   1      
+ 130   1          dataLen = gizStrlen(gizdata);
+ 131   1      
+ 132   1          if(NULL == gizdata)
+ 133   1          {
+ 134   2              return -1;
+ 135   2          }
+ 136   1      
+ 137   1          for(i=0; i<dataLen; i++)
+ 138   1          {
+ 139   2              if(gizdata[i] != '0')
+ 140   2              {
+ 141   3                  return 0;
+ 142   3              }
+ 143   2          }
+ 144   1      
+ 145   1          return 1;
+ 146   1      }
+ 147          
+ 148          /**
+ 149          * @brief Calculate week date
+ 150          
+ 151          * Calculate the day of the week based on the date
+ 152          
+ 153          * @param [in] iYear   
+ 154          * @param [in] iMonth   
+ 155          * @param [in] iDay  
+ 156          *
+ 157          * @return sum : Checksum
+ 158          */
+ 159          int32_t ICACHE_FLASH_ATTR returnWeekDay(uint32_t iYear, uint32_t iMonth, uint32_t iDay)
+ 160          {
+ 161   1          int32_t iWeek = 0;
+ 162   1          uint32_t y = 0, c = 0, m = 0, d = 0;
+ 163   1      
+ 164   1          if (iMonth == 1 || iMonth == 2)
+ 165   1          {
+ 166   2              c = (iYear - 1) / 100;
+ 167   2              y = (iYear - 1) % 100;
+ 168   2              m = iMonth + 12;
+ 169   2              d = iDay;
+ 170   2          }
+ 171   1          else
+ 172   1          {
+C51 COMPILER V9.01   COMMON                                                                06/26/2019 15:58:53 PAGE 4   
+
+ 173   2              c = iYear / 100;
+ 174   2              y = iYear % 100;
+ 175   2              m = iMonth;
+ 176   2              d = iDay;
+ 177   2          }
+ 178   1      
+ 179   1          iWeek = y + y / 4 + c / 4 - 2 * c + 26 * (m + 1) / 10 + d - 1;
+ 180   1          iWeek = iWeek >= 0 ? (iWeek % 7) : (iWeek % 7 + 7);
+ 181   1      
+ 182   1          return iWeek;
+ 183   1      }
+ 184          
+ 185          static int32_t ICACHE_FLASH_ATTR isleap(int32_t year)
+ 186          {
+ 187   1          return year % 4 == 0 && (year % 100 != 0 || year % 400 == 0);
+ 188   1      }
+ 189          
+ 190          static int ICACHE_FLASH_ATTR get_yeardays(int year)
+ 191          {
+ 192   1          if (isleap(year))
+ 193   1              return 366;
+ 194   1          return 365;
+ 195   1      }
+ 196          
+ 197          /**
+ 198          * @brief Calculate time zone time
+ 199          
+ 200          * Will be the time of the current time zone of Greenwich time
+ 201          
+ 202          * @param [in] Ntp: time of Greenwich
+ 203          *
+ 204          * @return sum : Back to the wall time structure
+ 205          */
+ 206          gizTime_t ICACHE_FLASH_ATTR returnNtp2Wt(uint32_t ntp)
+ 207          {
+ 208   1          gizTime_t tm;
+ 209   1          int32_t x;
+ 210   1          int32_t i=1970, mons[] = { 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 };
+ 211   1          uint32_t utc = ntp;
+ 212   1      
+ 213   1          /* utc + timezone */
+ 214   1          utc += TIMEZONE_DEFAULT * ONE_HOUR;
+ 215   1      
+ 216   1          for(i=1970; utc>0;)
+ 217   1          {
+ 218   2              x=get_yeardays(i);
+ 219   2              if(utc >= x*DAY_SEC)
+ 220   2              {
+ 221   3                  utc -= x*DAY_SEC;
+ 222   3                  i++;
+ 223   3              }
+ 224   2              else
+ 225   2              {
+ 226   3                  break;
+ 227   3              }
+ 228   2          }
+ 229   1          tm.year = i;
+ 230   1      
+ 231   1          for(i=0; utc>0;)
+ 232   1          {
+ 233   2              if (isleap(tm.year))
+ 234   2                  mons[1]=29;
+C51 COMPILER V9.01   COMMON                                                                06/26/2019 15:58:53 PAGE 5   
+
+ 235   2              if(utc >= mons[i]*DAY_SEC)
+ 236   2              {
+ 237   3                  utc -= mons[i]*DAY_SEC;
+ 238   3                  i++;
+ 239   3              }
+ 240   2              else
+ 241   2              {
+ 242   3                  break;
+ 243   3              }
+ 244   2          }
+ 245   1          mons[1]=28;
+ 246   1          tm.month = i+1;
+ 247   1      
+ 248   1          for(i=1; utc>0;)
+ 249   1          {
+ 250   2              if(utc >= DAY_SEC)
+ 251   2              {
+ 252   3                  utc -= DAY_SEC;
+ 253   3                  i++;
+ 254   3              }
+ 255   2              else
+ 256   2              {
+ 257   3                  break;
+ 258   3              }
+ 259   2          }
+ 260   1          tm.day=i;
+ 261   1      
+ 262   1          tm.hour = utc/(60*60);
+ 263   1          tm.minute = utc%(60*60)/60;
+ 264   1          tm.second = utc%60;
+ 265   1          tm.ntp = ntp;
+ 266   1      
+ 267   1          return tm;
+ 268   1      }
+ 269          
+ 270          /**
+ 271          * @brief String conversion binary
+ 272          * @param[in]   pbSrc    : String 
+ 273          * @param[in]   nLen    : String length 
+ 274          * @param[out]  pbDest   : binary 
+ 275          */
+ 276          void ICACHE_FLASH_ATTR str2Hex(char *pbDest, char *pbSrc, int32_t nLen)
+ 277          {
+ 278   1          char h1,h2;
+ 279   1          char s1,s2;
+ 280   1          int32_t i;
+ 281   1      
+ 282   1          for (i=0; i<nLen; i++)
+ 283   1          {
+ 284   2              h1 = pbSrc[2*i];
+ 285   2              h2 = pbSrc[2*i+1];
+ 286   2      
+ 287   2              s1 = toupper(h1) - 0x30;
+ 288   2              if (s1 > 9)
+ 289   2                  s1 -= 7;
+ 290   2      
+ 291   2              s2 = toupper(h2) - 0x30;
+ 292   2              if (s2 > 9)
+ 293   2                  s2 -= 7;
+ 294   2      
+ 295   2              pbDest[i] = s1*16 + s2;
+ 296   2          }
+C51 COMPILER V9.01   COMMON                                                                06/26/2019 15:58:53 PAGE 6   
+
+ 297   1      }
+ 298          
+ 299          /**
+ 300          * @brief Binary conversion string
+ 301          * @param[in]   pbSrc    : Binary data 
+ 302          * @param[in]   nLen    : Binary length 
+ 303          * @param[out]  pbDest   : Character 
+ 304          */
+ 305          void ICACHE_FLASH_ATTR hex2Str(unsigned char *pbDest, unsigned char *pbSrc, int32_t nLen)
+ 306          {
+ 307   1          char  ddl,ddh;
+ 308   1          int32_t i;
+ 309   1      
+ 310   1          for (i=0; i<nLen; i++) {
+ 311   2              ddh = 0x30 + pbSrc[i] / 16;
+ 312   2              ddl = 0x30 + pbSrc[i] % 16;
+ 313   2              if (ddh > 0x39) ddh = ddh + 7;
+ 314   2              if (ddl > 0x39) ddl = ddl + 7;
+ 315   2              pbDest[i*2] = ddh;
+ 316   2              pbDest[i*2+1] = ddl;
+ 317   2          }
+ 318   1      
+ 319   1          pbDest[nLen*2] = '\0';
+ 320   1      }
+*** WARNING C290 IN LINE 62 OF ..\UTILS\COMMON.C: missing return value
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =   2964    ----
+   CONSTANT SIZE    =     48    ----
+   XDATA SIZE       =   ----     174
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =   ----    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  6 WARNING(S),  0 ERROR(S)

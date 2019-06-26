@@ -1,0 +1,379 @@
+C51 COMPILER V9.01   DATAPOINTTOOLS                                                        06/26/2019 15:58:53 PAGE 1   
+
+
+C51 COMPILER V9.01, COMPILATION OF MODULE DATAPOINTTOOLS
+OBJECT MODULE PLACED IN .\dataPointTools.obj
+COMPILER INVOKED BY: E:\KEIL14��������\C51\BIN\C51.EXE ..\Utils\dataPointTools.c LARGE OPTIMIZE(8,SPEED) BROWSE INCDIR(.
+                    -.\Hal\Hal_Usart;..\Utils;..\Hal;..\User;..\Gizwits;..\Hal\Hal_key;..\SYSTEM;..\Lib\Delay) DEBUG OBJECTEXTEND PRINT(.\dat
+                    -aPointTools.lst) TABS(2) OBJECT(.\dataPointTools.obj)
+
+line level    source
+
+   1          /**
+   2          ************************************************************
+   3          * @file         dataPointTools.c
+   4          * @brief        Data point processing tool set
+   5          * @author       Gizwits
+   6          * @date         2017-07-19
+   7          * @version      V03030000
+   8          * @copyright    Gizwits
+   9          *
+  10          * @note         Gizwits is only for smart hardware
+  11          *               Gizwits Smart Cloud for Smart Products
+  12          *               Links | Value Added | Open | Neutral | Safety | Own | Free | Ecology
+  13          *               www.gizwits.com
+  14          *
+  15          ***********************************************************/
+  16          #include "dataPointTools.h"
+  17          #include "common.h"
+*** WARNING C318 IN LINE 24 OF ..\UTILS\COMMON.H: can't open file 'stdbool.h'
+*** WARNING C245 IN LINE 108 OF ..\UTILS\COMMON.H: unknown #pragma, line ignored
+*** WARNING C245 IN LINE 119 OF ..\UTILS\COMMON.H: unknown #pragma, line ignored
+  18          
+  19          /**
+  20          * @brief array buffer network byte order conversion
+  21          *
+  22          * @param [in] buf: buf address
+  23          * @param [in] dataLen: byte length
+  24          *
+  25          * @return   correct: 0
+  26                      Failed: -1
+  27          */
+  28          int8_t ICACHE_FLASH_ATTR gizByteOrderExchange(uint8_t *buf,uint32_t dataLen)
+  29          {
+  30   1          uint32_t i = 0;
+  31   1          uint8_t preData = 0;
+  32   1          uint8_t aftData = 0;
+  33   1      
+  34   1          if(NULL == buf)
+  35   1          {
+  36   2              return -1;
+  37   2          }
+  38   1      
+  39   1          for(i = 0;i<dataLen/2;i++)
+  40   1          {
+  41   2              preData = buf[i];
+  42   2              aftData = buf[dataLen - i - 1];
+  43   2              buf[i] = aftData;
+  44   2              buf[dataLen - i - 1] = preData;
+  45   2          }
+  46   1          return 0;
+  47   1      }
+  48          
+  49          
+  50          /**
+C51 COMPILER V9.01   DATAPOINTTOOLS                                                        06/26/2019 15:58:53 PAGE 2   
+
+  51          * @brief is converted to the value of x in the protocol and the value of the actual communication transmis
+             -sion
+  52          *
+  53          * @param [in] ratio: correction coefficient k
+  54          * @param [in] addition: Increment m
+  55          * @param [in] preValue: The y value in the protocol, which is the display value of the App UI interface
+  56          *
+  57          * @return aft_value: The value of the actual communication as a value in the protocol
+  58          */
+  59          uint32_t ICACHE_FLASH_ATTR gizY2X(uint32_t ratio, int32_t addition, int32_t preValue)
+  60          {
+  61   1          uint32_t aftValue = 0;
+  62   1      
+  63   1          //x=(y - m)/k
+  64   1          aftValue = ((preValue - addition) / ratio);
+  65   1      
+  66   1          return aftValue;
+  67   1      }
+  68          
+  69          /**
+  70          * @brief into the y value of the agreement and App UI interface display value
+  71          *
+  72          * @param [in] ratio: correction coefficient k
+  73          * @param [in] addition: Increment m
+  74          * @param [in] preValue: The value of the actual communication as an x value in the protocol
+  75          *
+  76          * @return aftValue: as the y value of the agreement, App UI interface is the display value
+  77          */
+  78          int32_t ICACHE_FLASH_ATTR gizX2Y(uint32_t ratio, int32_t addition, uint32_t preValue)
+  79          {
+  80   1          int32_t aftValue = 0;
+  81   1      
+  82   1          //y=k * x + m
+  83   1          aftValue = (preValue * ratio + addition);
+  84   1      
+  85   1          return aftValue;
+  86   1      }
+  87          
+  88          /**
+  89          * @brief into the value of the agreement and the actual value of the communication, only for floating-poin
+             -t data to do
+  90          *
+  91          * @param [in] ratio: correction coefficient k
+  92          * @param [in] addition: Increment m
+  93          * @param [in] preValue: The y value in the protocol, which is the display value of the App UI interface
+  94          *
+  95          * @return aft_value: The value of the actual communication as a value in the protocol
+  96          */
+  97          uint32_t ICACHE_FLASH_ATTR gizY2XFloat(float ratio, float addition, float preValue)
+  98          {
+  99   1          uint32_t aftValue = 0;
+ 100   1      
+ 101   1          //x=(y - m)/k
+ 102   1          aftValue = ((preValue - addition) / ratio);
+ 103   1      
+ 104   1          return aftValue;
+ 105   1      }
+ 106          
+ 107          /**
+ 108          * @brief into the y value of the agreement and App UI interface display value, only for the floating-point
+             - data to do
+ 109          *
+C51 COMPILER V9.01   DATAPOINTTOOLS                                                        06/26/2019 15:58:53 PAGE 3   
+
+ 110          * @param [in] ratio: correction coefficient k
+ 111          * @param [in] addition: Increment m
+ 112          * @param [in] preValue: The value of the actual communication as an x value in the protocol
+ 113          *
+ 114          * @return: as the y value of the agreement, App UI interface is the display value
+ 115          */
+ 116          float ICACHE_FLASH_ATTR gizX2YFloat(float ratio, float addition, uint32_t preValue)
+ 117          {
+ 118   1          float aftValue = 0;
+ 119   1      
+ 120   1          //y=k * x + m
+ 121   1          aftValue = (preValue * ratio + addition);
+ 122   1      
+ 123   1          return aftValue;
+ 124   1      }
+ 125          
+ 126          /**
+ 127          * @brief data points cross-byte judgment
+ 128          *
+ 129          * @param [in] bitOffset: Bit offset
+ 130          * @param [in] bitLen: occupies the bit length
+ 131          *
+ 132          * @return does not cross bytes: 0
+ 133                       Cross byte: 1
+ 134          */
+ 135          uint8_t ICACHE_FLASH_ATTR gizAcrossByteJudge(uint32_t bitOffset,uint32_t bitLen)
+ 136          {
+ 137   1          if((0 == bitOffset)||(0 == bitOffset%8))
+ 138   1          {
+ 139   2              if(bitLen <= 8)
+ 140   2              {
+ 141   3                  return 0;
+ 142   3              }
+ 143   2              else
+ 144   2              {
+ 145   3                  return 1;
+ 146   3              }
+ 147   2          }
+ 148   1          else
+ 149   1          {
+ 150   2              if(8 - bitOffset%8 >= bitLen)
+ 151   2              {
+ 152   3                  return 0;
+ 153   3              }
+ 154   2              else
+ 155   2              {
+ 156   3                  return 1; 
+ 157   3              }
+ 158   2          }
+ 159   1      }
+ 160          
+ 161          /**
+ 162          * @brief bool and enum type data point data compression
+ 163          *
+ 164          * @param [in] byteOffset: byte offset
+ 165          * @param [in] bitOffset: Bit offset
+ 166          * @param [in] bitLen: occupies the bit length
+ 167          * @param [out] arrayAddr: array address
+ 168          * @param [in] srcData: raw data
+ 169          *
+ 170          * @return: 0, the correct return; -1, the error returned
+ 171          */
+C51 COMPILER V9.01   DATAPOINTTOOLS                                                        06/26/2019 15:58:53 PAGE 4   
+
+ 172          int32_t ICACHE_FLASH_ATTR gizVarlenCompressValue(uint32_t bitOffset,uint32_t bitLen,uint8_t *bufAddr,uint3
+             -2_t srcData)
+ 173          {
+ 174   1          uint8_t highBit = 0;
+ 175   1          uint8_t lowBit = 0;
+ 176   1          uint8_t ret = 0;
+ 177   1          uint32_t byteOffset = 0;
+ 178   1          if(NULL == bufAddr)
+ 179   1          {
+ 180   2              return -1;
+ 181   2          }       
+ 182   1          /* ??bitOffset?? byteOffset*/
+ 183   1          byteOffset = bitOffset/8;
+ 184   1          ret = gizAcrossByteJudge(bitOffset,bitLen);
+ 185   1          if(0 == ret)
+ 186   1          {
+ 187   2              bufAddr[byteOffset] |= (((uint8_t)srcData)<<(bitOffset%8));
+ 188   2          }
+ 189   1          else if(1 == ret)
+ 190   1          {
+ 191   2              /* ????????????? */ 
+ 192   2              highBit = ((uint8_t)srcData)>>(8-bitOffset%8);
+ 193   2              lowBit = (uint8_t)srcData & (0xFF >> (8-bitOffset%8));
+ 194   2              bufAddr[byteOffset + 1] |=  highBit;
+ 195   2              bufAddr[byteOffset] |= (lowBit<<(bitOffset%8));
+ 196   2          }
+ 197   1      
+ 198   1          return 0;
+ 199   1      }
+ 200          
+ 201          /**
+ 202          * @brief bool and enum type data point data decompression
+ 203          *
+ 204          * @param [in] byteOffset: byte offset
+ 205          * @param [in] bitOffset: Bit offset
+ 206          * @param [in] bitLen: occupies the bit length
+ 207          * @param [in] arrayAddr: array address
+ 208          * @param [in] arrayLen: array length
+ 209          *
+ 210          * @return destValue: decompression after the results of data, -1 said the error returned
+ 211          */
+ 212          int32_t ICACHE_FLASH_ATTR gizVarlenDecompressionValue(uint32_t bitOffset, uint32_t bitLen, uint8_t * array
+             -Addr, uint32_t arrayLen)
+ 213          {
+ 214   1          int32_t destValue = 0;
+ 215   1          uint8_t ret = 0;
+ 216   1          uint32_t byteOffset = 0;
+ 217   1          uint8_t highBit = 0 ,lowBit = 0;
+ 218   1          uint8_t destBufTemp[50];//TERRY WARNING
+ 219   1          
+ 220   1          
+ 221   1          if(NULL == arrayAddr || 0 == arrayLen)
+ 222   1          {
+ 223   2              return -1;
+ 224   2          }
+ 225   1      
+ 226   1          byteOffset = bitOffset/8;
+ 227   1          memcpy(destBufTemp,arrayAddr,arrayLen);
+ 228   1          if(arrayLen > 1)// Judge Byte order conversion
+ 229   1          {
+ 230   2              if(-1 == gizByteOrderExchange(destBufTemp,arrayLen))
+ 231   2              {
+C51 COMPILER V9.01   DATAPOINTTOOLS                                                        06/26/2019 15:58:53 PAGE 5   
+
+ 232   3                  return -1;
+ 233   3              }
+ 234   2          }
+ 235   1          ret = gizAcrossByteJudge(bitOffset,bitLen);//Judge Byte Step
+ 236   1          if(0 == ret)
+ 237   1          {
+ 238   2              destValue |= ((destBufTemp[byteOffset] >> (bitOffset%8)) & (0xff >> (8 - bitLen)));
+ 239   2          }
+ 240   1          else if(1 == ret)
+ 241   1          {
+ 242   2              highBit = destBufTemp[byteOffset + 1]& (0xFF >> (8-(bitLen-(8-bitOffset%8))));
+ 243   2              lowBit = destBufTemp[byteOffset]>> (bitOffset%8);
+ 244   2              destValue |=  (highBit << (8-bitOffset%8));
+ 245   2              destValue |= lowBit;
+ 246   2          }
+ 247   1          return destValue;
+ 248   1      }
+ 249          
+ 250          /**
+ 251          * @brief bool and enum type data point data decompression
+ 252          *
+ 253          * @param [in] byteOffset: byte offset
+ 254          * @param [in] bitOffset: Bit offset
+ 255          * @param [in] bitLen: occupies the bit length
+ 256          * @param [in] arrayAddr: array address
+ 257          * @param [in] arrayLen: array length
+ 258          *
+ 259          * @return destValue: decompression after the results of data, -1 said the error returned
+ 260          */
+ 261          int32_t ICACHE_FLASH_ATTR gizStandardDecompressionValue(uint32_t byteOffset,uint32_t bitOffset,uint32_t bi
+             -tLen,uint8_t *arrayAddr,uint32_t arrayLen)
+ 262          {
+ 263   1          uint8_t ret = 0;
+ 264   1          uint8_t highBit = 0 ,lowBit = 0;
+ 265   1          uint8_t destBufTemp[50];
+ 266   1          int32_t destValue = 0;
+ 267   1          
+ 268   1          if(NULL == arrayAddr || 0 == arrayLen)
+ 269   1          {
+ 270   2              return -1;
+ 271   2          }
+ 272   1      
+ 273   1          memcpy(destBufTemp,arrayAddr,arrayLen);
+ 274   1          if(arrayLen > 1)// Judge Byte order conversion
+ 275   1          {
+ 276   2              if(-1 == gizByteOrderExchange(destBufTemp,arrayLen))
+ 277   2              {
+ 278   3                  return -1;
+ 279   3              }
+ 280   2          }
+ 281   1          ret = gizAcrossByteJudge(bitOffset,bitLen);//Judge Byte Step
+ 282   1          if(0 == ret)
+ 283   1          {
+ 284   2              destValue |= ((destBufTemp[byteOffset] >> (bitOffset%8)) & (0xff >> (8 - bitLen)));
+ 285   2          }
+ 286   1          else if(1 == ret)
+ 287   1          {
+ 288   2              /* Temporarily supports only up to 2 bytes */
+ 289   2              highBit = destBufTemp[byteOffset + 1]& (0xFF >> (8-(bitLen-(8-bitOffset%8))));
+ 290   2              lowBit = destBufTemp[byteOffset]>> (bitOffset%8);
+ 291   2              destValue |=  (highBit << (8-bitOffset%8));
+ 292   2              destValue |= lowBit;
+C51 COMPILER V9.01   DATAPOINTTOOLS                                                        06/26/2019 15:58:53 PAGE 6   
+
+ 293   2          }
+ 294   1          return destValue;
+ 295   1      }
+ 296          
+ 297          /**
+ 298          * @brief bool and enum type data point data compression
+ 299          *
+ 300          * @param [in] byteOffset: byte offset
+ 301          * @param [in] bitOffset: Bit offset
+ 302          * @param [in] bitLen: occupies the bit length
+ 303          * @param [out] arrayAddr: array address
+ 304          * @param [in] srcData: raw data
+ 305          *
+ 306          * @return: 0, the correct return; -1, the error returned
+ 307          */
+ 308          int32_t ICACHE_FLASH_ATTR gizStandardCompressValue(uint32_t byteOffset,uint32_t bitOffset,uint32_t bitLen,
+             -uint8_t *bufAddr,uint32_t srcData)
+ 309          {
+ 310   1          uint8_t highBit = 0;
+ 311   1          uint8_t lowBit = 0;
+ 312   1          uint8_t ret = 0;
+ 313   1      
+ 314   1          if(NULL == bufAddr)
+ 315   1          {
+ 316   2              return -1;
+ 317   2          }
+ 318   1      
+ 319   1          ret = gizAcrossByteJudge(bitOffset,bitLen);
+ 320   1          if(0 == ret)
+ 321   1          {
+ 322   2              bufAddr[byteOffset] |= (((uint8_t)srcData)<<(bitOffset%8));
+ 323   2          }
+ 324   1          else if(1 == ret)
+ 325   1          {
+ 326   2              /* Temporarily support up to two bytes of compression */ 
+ 327   2              highBit = ((uint8_t)srcData)>>(8-bitOffset%8);
+ 328   2              lowBit = (uint8_t)srcData & (0xFF >> (8-bitOffset%8));
+ 329   2              bufAddr[byteOffset + 1] |=  highBit;
+ 330   2              bufAddr[byteOffset] |= (lowBit<<(bitOffset%8));
+ 331   2          }
+ 332   1      
+ 333   1          return 0;
+ 334   1      }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =   2549    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----     265
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =   ----    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  3 WARNING(S),  0 ERROR(S)

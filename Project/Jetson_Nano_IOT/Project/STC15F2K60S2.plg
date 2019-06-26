@@ -1,0 +1,144 @@
+<html>
+<body>
+<pre>
+<h1>µVision Build Log</h1>
+<h2>Project:</h2>
+D:\gizwits_mcu_code_generatorV3.0\out\GizwitsMCUSTC15F2K60S2201708171128181164580a55\MCU_STC15F2K60S2_source\Project\STC15F2K60S2.uvproj
+Project File Date:  08/17/2017
+
+<h2>Output:</h2>
+Build target 'Target 1'
+compiling hal_uart.c...
+..\GIZWITS\GIZWITS_PROTOCOL.H(25): warning C318: can't open file 'stdbool.h'
+..\UTILS\COMMON.H(24): warning C318: can't open file 'stdbool.h'
+..\UTILS\COMMON.H(108): warning C245: unknown #pragma, line ignored
+..\UTILS\COMMON.H(119): warning C245: unknown #pragma, line ignored
+..\GIZWITS\GIZWITS_PROTOCOL.H(269): warning C245: unknown #pragma, line ignored
+..\GIZWITS\GIZWITS_PROTOCOL.H(534): warning C322: unknown identifier
+..\GIZWITS\GIZWITS_PROTOCOL.H(543): warning C245: unknown #pragma, line ignored
+compiling gizwits_product.c...
+..\GIZWITS\GIZWITS_PROTOCOL.H(25): warning C318: can't open file 'stdbool.h'
+..\UTILS\COMMON.H(24): warning C318: can't open file 'stdbool.h'
+..\UTILS\COMMON.H(108): warning C245: unknown #pragma, line ignored
+..\UTILS\COMMON.H(119): warning C245: unknown #pragma, line ignored
+..\GIZWITS\GIZWITS_PROTOCOL.H(269): warning C245: unknown #pragma, line ignored
+..\GIZWITS\GIZWITS_PROTOCOL.H(534): warning C322: unknown identifier
+..\GIZWITS\GIZWITS_PROTOCOL.H(543): warning C245: unknown #pragma, line ignored
+..\GIZWITS\GIZWITS_PRODUCT.H(23): warning C318: can't open file 'main.h'
+..\GIZWITS\GIZWITS_PRODUCT.H(60): warning C317: attempt to redefine macro 'REPORT_TIME_MAX'
+..\Gizwits\gizwits_product.c(56): warning C322: unknown identifier
+..\Gizwits\gizwits_product.c(145): warning C322: unknown identifier
+..\GIZWITS\GIZWITS_PRODUCT.C(49): warning C280: 'len': unreferenced local variable
+compiling gizwits_protocol.c...
+..\UTILS\RINGBUFFER.H(30): warning C245: unknown #pragma, line ignored
+..\UTILS\RINGBUFFER.H(37): warning C245: unknown #pragma, line ignored
+..\GIZWITS\GIZWITS_PRODUCT.H(23): warning C318: can't open file 'main.h'
+..\GIZWITS\GIZWITS_PROTOCOL.H(25): warning C318: can't open file 'stdbool.h'
+..\UTILS\COMMON.H(24): warning C318: can't open file 'stdbool.h'
+..\UTILS\COMMON.H(108): warning C245: unknown #pragma, line ignored
+..\UTILS\COMMON.H(119): warning C245: unknown #pragma, line ignored
+..\GIZWITS\GIZWITS_PROTOCOL.H(269): warning C245: unknown #pragma, line ignored
+..\GIZWITS\GIZWITS_PROTOCOL.H(534): warning C322: unknown identifier
+..\GIZWITS\GIZWITS_PROTOCOL.H(543): warning C245: unknown #pragma, line ignored
+..\GIZWITS\GIZWITS_PRODUCT.H(60): warning C317: attempt to redefine macro 'REPORT_TIME_MAX'
+..\GIZWITS\GIZWITS_PROTOCOL.C(178): warning C280: 'lastReportTime': unreferenced local variable
+compiling main.c...
+..\GIZWITS\GIZWITS_PROTOCOL.H(25): warning C318: can't open file 'stdbool.h'
+..\UTILS\COMMON.H(24): warning C318: can't open file 'stdbool.h'
+..\UTILS\COMMON.H(108): warning C245: unknown #pragma, line ignored
+..\UTILS\COMMON.H(119): warning C245: unknown #pragma, line ignored
+..\GIZWITS\GIZWITS_PROTOCOL.H(269): warning C245: unknown #pragma, line ignored
+..\GIZWITS\GIZWITS_PROTOCOL.H(534): warning C322: unknown identifier
+..\GIZWITS\GIZWITS_PROTOCOL.H(543): warning C245: unknown #pragma, line ignored
+..\GIZWITS\GIZWITS_PRODUCT.H(23): warning C318: can't open file 'main.h'
+..\GIZWITS\GIZWITS_PRODUCT.H(60): warning C317: attempt to redefine macro 'REPORT_TIME_MAX'
+..\USER\MAIN.C(72): warning C206: 'userInit': missing function-prototype
+..\USER\MAIN.C(79): warning C206: 'userHandle': missing function-prototype
+compiling common.c...
+..\UTILS\COMMON.H(24): warning C318: can't open file 'stdbool.h'
+..\UTILS\COMMON.H(108): warning C245: unknown #pragma, line ignored
+..\UTILS\COMMON.H(119): warning C245: unknown #pragma, line ignored
+..\UTILS\COMMON.C(62): warning C173: missing return-expression
+..\UTILS\COMMON.C(48): warning C280: 'value': unreferenced local variable
+..\UTILS\COMMON.C(62): warning C290: missing return value
+compiling dataPointTools.c...
+..\UTILS\COMMON.H(24): warning C318: can't open file 'stdbool.h'
+..\UTILS\COMMON.H(108): warning C245: unknown #pragma, line ignored
+..\UTILS\COMMON.H(119): warning C245: unknown #pragma, line ignored
+compiling ringbuffer.c...
+..\UTILS\RINGBUFFER.H(30): warning C245: unknown #pragma, line ignored
+..\UTILS\RINGBUFFER.H(37): warning C245: unknown #pragma, line ignored
+..\UTILS\COMMON.H(24): warning C318: can't open file 'stdbool.h'
+..\UTILS\COMMON.H(108): warning C245: unknown #pragma, line ignored
+..\UTILS\COMMON.H(119): warning C245: unknown #pragma, line ignored
+compiling Hal_key.c...
+..\GIZWITS\GIZWITS_PROTOCOL.H(25): warning C318: can't open file 'stdbool.h'
+..\UTILS\COMMON.H(24): warning C318: can't open file 'stdbool.h'
+..\UTILS\COMMON.H(108): warning C245: unknown #pragma, line ignored
+..\UTILS\COMMON.H(119): warning C245: unknown #pragma, line ignored
+..\GIZWITS\GIZWITS_PROTOCOL.H(269): warning C245: unknown #pragma, line ignored
+..\GIZWITS\GIZWITS_PROTOCOL.H(534): warning C322: unknown identifier
+..\GIZWITS\GIZWITS_PROTOCOL.H(543): warning C245: unknown #pragma, line ignored
+linking...
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_PRINTSTRING1?HAL_UART
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_PRINTSTRING2?HAL_UART
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?GIZWITSGETNTP?GIZWITS_PROTOCOL
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?GIZWITSGETMODULEINFO?GIZWITS_PROTOCOL
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_GIZWITSPASSTHROUGHDATA?GIZWITS_PROTOCOL
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_DELAY_MS?MAIN
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_CHAR2HEX?COMMON
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_CHECKSTRINGISNOTZERO?COMMON
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_RETURNWEEKDAY?COMMON
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_RETURNNTP2WT?COMMON
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_STR2HEX?COMMON
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_HEX2STR?COMMON
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_GIZY2XFLOAT?DATAPOINTTOOLS
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_GIZX2YFLOAT?DATAPOINTTOOLS
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_GIZVARLENCOMPRESSVALUE?DATAPOINTTOOLS
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_GIZVARLENDECOMPRESSIONVALUE?DATAPOINTTOOLS
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_RBDELETE?RINGBUFFER
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?KEY_INIT?HAL_KEY
+*** WARNING L15: MULTIPLE CALL TO SEGMENT
+    SEGMENT: ?PR?PRINTF?PRINTF
+    CALLER1: ?PR?UART1_RCV?HAL_UART
+    CALLER2: ?C_C51STARTUP
+*** WARNING L15: MULTIPLE CALL TO SEGMENT
+    SEGMENT: ?PR?_PUTCHAR?MAIN
+    CALLER1: ?PR?UART1_RCV?HAL_UART
+    CALLER2: ?C_C51STARTUP
+*** WARNING L15: MULTIPLE CALL TO SEGMENT
+    SEGMENT: ?PR?_RBCANREAD?RINGBUFFER
+    CALLER1: ?PR?UART1_RCV?HAL_UART
+    CALLER2: ?C_C51STARTUP
+*** WARNING L15: MULTIPLE CALL TO SEGMENT
+    SEGMENT: ?PR?_RBCAPACITY?RINGBUFFER
+    CALLER1: ?PR?UART1_RCV?HAL_UART
+    CALLER2: ?C_C51STARTUP
+*** WARNING L1: UNRESOLVED EXTERNAL SYMBOL
+    SYMBOL:  MCURESTART
+    MODULE:  .\gizwits_protocol.obj (GIZWITS_PROTOCOL)
+*** WARNING L2: REFERENCE MADE TO UNRESOLVED EXTERNAL
+    SYMBOL:  MCURESTART
+    MODULE:  .\gizwits_protocol.obj (GIZWITS_PROTOCOL)
+    ADDRESS: 5BE0H
+Program Size: data=21.5 xdata=949 code=24147
+creating hex file from "STC15F2K60S2"...
+"STC15F2K60S2" - 0 Error(s), 87 Warning(s).

@@ -1,0 +1,135 @@
+C51 COMPILER V9.01   HAL_KEY                                                               06/26/2019 15:58:52 PAGE 1   
+
+
+C51 COMPILER V9.01, COMPILATION OF MODULE HAL_KEY
+OBJECT MODULE PLACED IN .\Hal_key.obj
+COMPILER INVOKED BY: E:\KEIL14开发程序\C51\BIN\C51.EXE ..\Hal\Hal_key\Hal_key.c LARGE OPTIMIZE(8,SPEED) BROWSE INCDIR(..
+                    -\Hal\Hal_Usart;..\Utils;..\Hal;..\User;..\Gizwits;..\Hal\Hal_key;..\SYSTEM;..\Lib\Delay) DEBUG OBJECTEXTEND PRINT(.\Hal_
+                    -key.lst) TABS(2) OBJECT(.\Hal_key.obj)
+
+line level    source
+
+   1          #include <hal_key.h>
+   2          #include "gizwits_protocol.h"
+*** WARNING C318 IN LINE 25 OF ..\GIZWITS\GIZWITS_PROTOCOL.H: can't open file 'stdbool.h'
+*** WARNING C318 IN LINE 24 OF ..\UTILS\COMMON.H: can't open file 'stdbool.h'
+*** WARNING C245 IN LINE 108 OF ..\UTILS\COMMON.H: unknown #pragma, line ignored
+*** WARNING C245 IN LINE 119 OF ..\UTILS\COMMON.H: unknown #pragma, line ignored
+*** WARNING C245 IN LINE 297 OF ..\GIZWITS\GIZWITS_PROTOCOL.H: unknown #pragma, line ignored
+*** WARNING C322 IN LINE 554 OF ..\GIZWITS\GIZWITS_PROTOCOL.H: unknown identifier
+*** WARNING C245 IN LINE 563 OF ..\GIZWITS\GIZWITS_PROTOCOL.H: unknown #pragma, line ignored
+   3          
+   4          
+   5          unsigned char skeycount;    //设置按键时长计数器
+   6          unsigned char skpttime;   //设置按键时长
+   7          unsigned char longflag;   //设置长按标志
+   8          unsigned char sflag;      //设置显示状态标志,0-普通运行,1-定时设置,2-日历时钟设置
+   9          bit   skpflag;        //设置按键按下标志
+  10          
+  11          
+  12          
+  13              
+  14          void delay1ms(unsigned char ms);//延时程序
+  15          void setkeyscan();        //设置键的扫描判断函数
+  16          void pro_sklp();        //长按设置功能键的处理函数
+  17          void pro_sksp();        //短按设置功能键的处理函数
+  18          
+  19          
+  20           
+  21          //=======子程序==================================
+  22          /*检测及处理多功能设置按键k2*/
+  23          void setkeyscan()
+  24          {
+  25   1        if (skpflag)                    //判断是否已经有键按下未被处理
+  26   1        {
+  27   2          if(skeycount>LONGPRESS)             //如果是长按则执行长按键设置功能
+  28   2          {
+  29   3            pro_sklp();
+  30   3            skpflag=0;
+  31   3            longflag=1;
+  32   3          }
+  33   2          else if((skpttime>0) && (skpttime<=LONGPRESS))  //否则如果是短按则执行短按的功能,都不是直接跳过
+  34   2          {
+  35   3            pro_sksp();
+  36   3            skpflag=0;
+  37   3          }
+  38   2        }
+  39   1        else
+  40   1        {
+  41   2          if(!SETKEY)               //按下设置键
+  42   2          {
+  43   3            delay1ms(10);           //键盘防抖
+  44   3            if((!SETKEY)&&longflag == 0)
+  45   3            {
+  46   4              skeycount=0;          //初始化按键时长计数器
+C51 COMPILER V9.01   HAL_KEY                                                               06/26/2019 15:58:52 PAGE 2   
+
+  47   4              skpttime=0;           //初始化按键时长
+  48   4              skpflag=1;            //标志已经有键被按下
+  49   4              longflag=0;
+  50   4            }
+  51   3          }else{
+  52   3                              longflag=0;
+  53   3                      }
+  54   2        }
+  55   1      }
+  56          
+  57          
+  58          /* 延时程序*/
+  59          void delay1ms(unsigned char ms)
+  60          { while(ms--)           //每循环一次,约延迟1ms
+  61   1        { unsigned char i;
+  62   2          for(i = 0; i< 250; i++)     //循环250次,在12M晶振时约延时1ms
+  63   2          {
+  64   3            _nop_();         //执行一条_nop_()指令为一个机器周期
+  65   3            _nop_();
+  66   3            _nop_();
+  67   3            _nop_();
+  68   3          }
+  69   2        }
+  70   1      }   
+  71            
+  72          
+  73          /*(短按k2)*/
+  74          void pro_sksp()
+  75          {
+  76   1        sflag=0;                //设置状态标志
+  77   1        //以下为短按键的处理程序
+  78   1        gizwitsSetMode(WIFI_AIRLINK_MODE);//进入airlink配网模式
+  79   1      }
+  80          
+  81          
+  82          /*(长按k2)*/
+  83          void pro_sklp()
+  84          {
+  85   1        sflag=0;                //设置状态标志
+  86   1        //以下为长按键的处理程序
+  87   1        gizwitsSetMode(WIFI_RESET_MODE);//reset模组
+  88   1      
+  89   1      }
+  90          
+  91          void key_init()
+  92          {
+  93   1        skeycount=0;            //初始化功能键按下时长计数器
+  94   1        skpttime=0;             //初始化功能键按下的总时长
+  95   1        sflag=0;              //初始化显示状态标志,0-普通运行,1-定时设置,2-日历时钟设置
+  96   1        SETKEY=1;             //k2,设置为输入端口
+  97   1        longflag =0;
+  98   1      }
+  99          
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    142    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =      4       1
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =   ----    ----
+   IDATA SIZE       =   ----    ----
+C51 COMPILER V9.01   HAL_KEY                                                               06/26/2019 15:58:52 PAGE 3   
+
+   BIT SIZE         =      1    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  7 WARNING(S),  0 ERROR(S)

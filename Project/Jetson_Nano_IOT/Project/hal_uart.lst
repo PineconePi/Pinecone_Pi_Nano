@@ -1,0 +1,127 @@
+C51 COMPILER V9.01   HAL_UART                                                              06/26/2019 15:58:52 PAGE 1   
+
+
+C51 COMPILER V9.01, COMPILATION OF MODULE HAL_UART
+OBJECT MODULE PLACED IN .\hal_uart.obj
+COMPILER INVOKED BY: E:\KEIL14��������\C51\BIN\C51.EXE ..\Hal\Hal_Usart\hal_uart.c LARGE OPTIMIZE(8,SPEED) BROWSE INCDIR
+                    -(..\Hal\Hal_Usart;..\Utils;..\Hal;..\User;..\Gizwits;..\Hal\Hal_key;..\SYSTEM;..\Lib\Delay) DEBUG OBJECTEXTEND PRINT(.\h
+                    -al_uart.lst) TABS(2) OBJECT(.\hal_uart.obj)
+
+line level    source
+
+   1          //xdd_core于2019-6-18修改本文件以用于在松果派NANO（STC8A8K64S4A12）上运行
+   2          #include <stdio.h>
+   3          #include <hal_uart.h>
+   4          #include "gizwits_protocol.h"
+*** WARNING C318 IN LINE 25 OF ..\GIZWITS\GIZWITS_PROTOCOL.H: can't open file 'stdbool.h'
+*** WARNING C318 IN LINE 24 OF ..\UTILS\COMMON.H: can't open file 'stdbool.h'
+*** WARNING C245 IN LINE 108 OF ..\UTILS\COMMON.H: unknown #pragma, line ignored
+*** WARNING C245 IN LINE 119 OF ..\UTILS\COMMON.H: unknown #pragma, line ignored
+*** WARNING C245 IN LINE 297 OF ..\GIZWITS\GIZWITS_PROTOCOL.H: unknown #pragma, line ignored
+*** WARNING C322 IN LINE 554 OF ..\GIZWITS\GIZWITS_PROTOCOL.H: unknown identifier
+*** WARNING C245 IN LINE 563 OF ..\GIZWITS\GIZWITS_PROTOCOL.H: unknown #pragma, line ignored
+   5          
+   6          bit   B_TI;
+   7          bit   B_TI2;
+   8          /****************串口2发送函数（函数名不变，功能对调了）**********************/
+   9          void  UART1_TxByte(unsigned char dat)
+  10          {
+  11   1          B_TI2 = 0;  //发送标志
+  12   1        S2BUF = dat;  //SBUF在这里是一个可写发送缓冲寄存器，把需要发送的数据放在寄存�
+             -�中
+  13   1        while(!B_TI2);  //等待数据传送，传送结束后B_TI2置1
+  14   1        B_TI2 = 0;  //发送标志
+  15   1      }
+  16          /****************串口1发送函数（函数名不变，功能对调了）**********************/
+  17          void  UART2_TxByte(unsigned char dat)
+  18          {
+  19   1        B_TI = 0;   //发送标志
+  20   1        SBUF = dat;   //SBUF在这里是一个可写发送缓冲寄存器，把需要发送的数据放在寄存�
+             -�中
+  21   1        while(!B_TI); //等待数据传送，传送结束后B_TI置1  
+  22   1        B_TI = 0;   //发送标志
+  23   1      }
+  24          
+  25          void PrintString1(unsigned char code *puts)   //发送一串字符串
+  26          {
+  27   1          for (; *puts != 0;  puts++)  UART1_TxByte(*puts);   //遇到停止符0结束
+  28   1      }
+  29          
+  30          void PrintString2(unsigned char code *puts)   //发送一串字符串
+  31          {
+  32   1          for (; *puts != 0;  puts++)  UART2_TxByte(*puts);   //遇到停止符0结束
+  33   1      }
+  34          
+  35          /****************串口1初始化函数**********************/
+  36          //打印日志
+  37          void  uart1_init(void)//115200bps@24.000MHz
+  38          {
+  39   1        SCON = 0x50;    //8位数据,可变波特率
+  40   1        AUXR |= 0x40;   //定时器1时钟为Fosc,即1T
+  41   1        AUXR &= 0xFE;   //串口1选择定时器1为波特率发生器
+  42   1        TMOD &= 0x0F;   //设定定时器1为16位自动重装方式
+  43   1        TL1 = 0xCC;   //设定定时初值
+  44   1        TH1 = 0xFF;   //设定定时初值
+C51 COMPILER V9.01   HAL_UART                                                              06/26/2019 15:58:52 PAGE 2   
+
+  45   1        ET1 = 0;    //禁止定时器1中断
+  46   1        TR1 = 1;    //启动定时器1
+  47   1      }
+  48          
+  49          /****************串口1中断函数**********************/
+  50          void UART1_RCV (void) interrupt 4 //串口1我们没有用到接收，这里可以删除。
+  51          {
+  52   1        if(TI)  //等待发送完成
+  53   1        {
+  54   2          TI = 0;   //发送中断标志位,必须通过软件清零
+  55   2          B_TI = 1; //数据发送完成的标志
+  56   2        }
+  57   1      }
+  58          
+  59          
+  60          /****************串口2初始化************************/
+  61          void  uart2_init(void)  //9600bps@24.000MHz
+  62          {
+  63   1          S2CON = 0x50;   //8位数据,可变波特率
+  64   1          AUXR |= 0x04;   //定时器2时钟为Fosc,即1T
+  65   1          T2L = 0x8F;   //设定定时初值
+  66   1          T2H = 0xFD;   //设定定时初值
+  67   1          AUXR |= 0x10;   //启动定时器2
+  68   1          IE2 = 0x01;                 //使能串口2中断
+  69   1          IE2 |=  1;      //允许串口2中断
+  70   1          ES  = 1;      //串行口中断允许（ES=1允许，ES=0禁止）    
+  71   1          EA = 1;       //中断总开关
+  72   1      }
+  73          
+  74          /**************串口2中断函数**********************/
+  75          void UART2_RCV (void) interrupt 8
+  76          {
+  77   1        
+  78   1        uint8_t gizbuf;
+  79   1          if(S2CON & S2RI)  //等待串口2接收完成
+  80   1        {
+  81   2          CLR_RI2();  //接收中断请求标志位清0 
+  82   2          gizbuf = S2BUF; //SBUF在这里是一个接收缓冲寄存器，把接收到数据放到我们的自定�
+             -��的接收缓冲区
+  83   2          gizPutData(&gizbuf,1);//把接收到的数据放到环形缓冲区
+  84   2        }
+  85   1        if(S2CON & S2TI)    //等待串口2发送完成
+  86   1        {
+  87   2          CLR_TI2();  //发送中断请求标志位清0
+  88   2          B_TI2 = 1;  //数据发送完成的标志
+  89   2        }
+  90   1      }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    206    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----       1
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =   ----    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =      2    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  7 WARNING(S),  0 ERROR(S)

@@ -1,0 +1,176 @@
+C51 COMPILER V9.01   MAIN                                                                  06/26/2019 15:58:51 PAGE 1   
+
+
+C51 COMPILER V9.01, COMPILATION OF MODULE MAIN
+OBJECT MODULE PLACED IN .\main.obj
+COMPILER INVOKED BY: E:\KEIL14开发程序\C51\BIN\C51.EXE ..\User\main.c LARGE OPTIMIZE(8,SPEED) BROWSE INCDIR(..\Hal\Hal_U
+                    -sart;..\Utils;..\Hal;..\User;..\Gizwits;..\Hal\Hal_key;..\SYSTEM;..\Lib\Delay) DEBUG OBJECTEXTEND PRINT(.\main.lst) TABS
+                    -(2) OBJECT(.\main.obj)
+
+line level    source
+
+   1          /**
+   2          ************************************************************
+   3          * @file         main.c
+   4          * @brief        MCU版 入口文件
+   5          * @author       Gizwits
+   6          * @date         2016-09-05
+   7          * @version      V03010101
+   8          * @copyright    Gizwits
+   9          * 
+  10          * @note         机智云.只为智能硬件而生
+  11          *               Gizwits Smart Cloud  for Smart Products
+  12          *               链接|增值?|开放|中立|安全|自有|自由|生态
+  13          *               www.gizwits.com
+  14          *
+  15          ***********************************************************/
+  16          /********************************************************
+  17          ** 代码移植说明
+  18          *
+  19          * 1、实现与模组通信串口驱动（1、中断收数据写入环形缓冲区;2、实现uartWrite()串口发送函数）
+  20          * 2、实现串口打印函数printf()
+  21          * 3、实现ms定时器，gizTimerMs()维护系统时间
+  22          * 4、实现MCU复位函数,模组可请求MCU复位
+  23          * 5、实现配置入网功能,调用gizwitsSetMode()函数实现模组配网功能
+  24          * 6、实现userHandle()数据的采集（上行逻辑）
+  25          * 7、实现gizwitsEventProcess()控制命令的具体执行(下行逻辑)
+  26          * 8、实现mcuRestart()复位函数
+  27          * 
+  28          *
+  29          *********************************************************/
+  30          #include <stdint.h>
+  31          #include <string.h>
+  32          #include <hal_uart.h>
+  33          #include <hal_key.h>
+  34          #include "gizwits_protocol.h"
+*** WARNING C318 IN LINE 25 OF ..\GIZWITS\GIZWITS_PROTOCOL.H: can't open file 'stdbool.h'
+*** WARNING C318 IN LINE 24 OF ..\UTILS\COMMON.H: can't open file 'stdbool.h'
+*** WARNING C245 IN LINE 108 OF ..\UTILS\COMMON.H: unknown #pragma, line ignored
+*** WARNING C245 IN LINE 119 OF ..\UTILS\COMMON.H: unknown #pragma, line ignored
+*** WARNING C245 IN LINE 297 OF ..\GIZWITS\GIZWITS_PROTOCOL.H: unknown #pragma, line ignored
+*** WARNING C322 IN LINE 554 OF ..\GIZWITS\GIZWITS_PROTOCOL.H: unknown identifier
+*** WARNING C245 IN LINE 563 OF ..\GIZWITS\GIZWITS_PROTOCOL.H: unknown #pragma, line ignored
+  35          #include "gizwits_product.h"
+*** WARNING C318 IN LINE 23 OF ..\GIZWITS\GIZWITS_PRODUCT.H: can't open file 'main.h'
+  36          
+  37          /******************** 开/关机|重启引脚 ***************/
+  38          #define Power_on P01
+  39          #define Power_off P02
+  40          #define Reset P03
+  41          
+  42          /** 用户区当前设备状态结构体*/
+  43          dataPoint_t currentDataPoint;
+  44          uint32_t timerMsCount = 0 ;
+  45          unsigned int Time = 0;
+C51 COMPILER V9.01   MAIN                                                                  06/26/2019 15:58:51 PAGE 2   
+
+  46          unsigned int sec1000 = 0;
+  47          extern unsigned char  skeycount;    //设置按键时长计数器
+  48          extern unsigned char  skpttime;   //设置按键时长
+  49          extern bit    skpflag;        //设置按键按下标志
+  50          /******************** 本地函数声明 ***************/
+  51          void  Timer0_Init(void);
+  52          void  Delay_ms(unsigned int n);
+  53          void Pin_Init(void);
+  54          /******************** 重写putchar函数 ***************/
+  55          char putchar(char c)
+  56          {
+  57   1          UART2_TxByte(c);//printf映射到串口1的发送函数
+  58   1          return c;
+  59   1      }
+  60          
+  61          
+  62          
+  63          
+  64          
+  65          /**
+  66          * @brief程序入口函数
+  67          
+  68          * 在该函数中完成用户相关的初始化,及主逻辑循环
+  69          * @param none
+  70          * @return none
+  71          */
+  72          int main(void)
+  73          {  
+  74   1        Pin_Init();
+  75   1        uart1_init();
+  76   1        uart2_init();
+  77   1        Timer0_Init();
+  78   1      
+  79   1          userInit();
+*** WARNING C206 IN LINE 79 OF ..\USER\MAIN.C: 'userInit': missing function-prototype
+  80   1          gizwitsInit();
+  81   1          
+  82   1          while(1)
+  83   1          {
+  84   2          setkeyscan();         //检测功能键
+  85   2      
+  86   2              userHandle();
+*** WARNING C206 IN LINE 86 OF ..\USER\MAIN.C: 'userHandle': missing function-prototype
+  87   2       
+  88   2              gizwitsHandle((dataPoint_t *)&currentDataPoint);
+  89   2          
+  90   2          
+  91   2          
+  92   2          }
+  93   1      }
+  94          /**************引脚初始化函数**********************/
+  95          void Pin_Init()
+  96          {
+  97   1        Power_on=1;
+  98   1        Power_off=1;
+  99   1        Reset=1;
+ 100   1      }
+ 101          /**************定时器初始化函数**********************/
+ 102          void Timer0_Init(void)
+ 103          {
+ 104   1        TMOD|=0x02;
+ 105   1        TL0=0x40;//0x47;
+C51 COMPILER V9.01   MAIN                                                                  06/26/2019 15:58:51 PAGE 3   
+
+ 106   1        TH0=0xa2;//0x47;
+ 107   1        ET0=1;
+ 108   1        TR0=1;
+ 109   1      }
+ 110          /*************定时器中断函数******************/
+ 111          void Timer0_Tsr(void) interrupt 1
+ 112          {
+ 113   1        Time ++;
+ 114   1        if(Time == 5)
+ 115   1        {
+ 116   2          Time = 0;
+ 117   2          gizTimerMs();
+ 118   2        }
+ 119   1        sec1000++;
+ 120   1        if(sec1000 >= 1000) //1秒时间 (1000*1ms=1000ms=1s)
+ 121   1        {
+ 122   2          sec1000 = 0;
+ 123   2          //以下为设置功能键的按键时长计数部分
+ 124   2          if(skpflag)
+ 125   2          {
+ 126   3            skeycount++;
+ 127   3            if(SETKEY) skpttime=skeycount;
+ 128   3          }
+ 129   2        }
+ 130   1      }
+ 131          /**************计时器延时函数*******************/
+ 132          void Delay_ms(unsigned int n)
+ 133          {
+ 134   1        unsigned int  i,j;  
+ 135   1        for(i=0;i<n;i++)
+ 136   1          for(j=0;j<123;j++);
+ 137   1      }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    243    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =     34       1
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =   ----    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  10 WARNING(S),  0 ERROR(S)

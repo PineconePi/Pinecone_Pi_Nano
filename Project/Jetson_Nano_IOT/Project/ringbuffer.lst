@@ -1,0 +1,203 @@
+C51 COMPILER V9.01   RINGBUFFER                                                            06/26/2019 15:58:53 PAGE 1   
+
+
+C51 COMPILER V9.01, COMPILATION OF MODULE RINGBUFFER
+OBJECT MODULE PLACED IN .\ringbuffer.obj
+COMPILER INVOKED BY: E:\KEIL14¿ª·¢³ÌÐò\C51\BIN\C51.EXE ..\Utils\ringbuffer.c LARGE OPTIMIZE(8,SPEED) BROWSE INCDIR(..\Ha
+                    -l\Hal_Usart;..\Utils;..\Hal;..\User;..\Gizwits;..\Hal\Hal_key;..\SYSTEM;..\Lib\Delay) DEBUG OBJECTEXTEND PRINT(.\ringbuf
+                    -fer.lst) TABS(2) OBJECT(.\ringbuffer.obj)
+
+line level    source
+
+   1          /**
+   2          ************************************************************
+   3          * @file         ringbuffer.c
+   4          * @brief        Loop buffer processing
+   5          * @author       Gizwits
+   6          * @date         2017-07-19
+   7          * @version      V03030000
+   8          * @copyright    Gizwits
+   9          *
+  10          * @note         Gizwits is only for smart hardware
+  11          *               Gizwits Smart Cloud for Smart Products
+  12          *               Links | Value Added | Open | Neutral | Safety | Own | Free | Ecology
+  13          *               www.gizwits.com
+  14          *
+  15          ***********************************************************/
+  16          #include "ringBuffer.h"
+*** WARNING C245 IN LINE 30 OF ..\UTILS\RINGBUFFER.H: unknown #pragma, line ignored
+*** WARNING C245 IN LINE 37 OF ..\UTILS\RINGBUFFER.H: unknown #pragma, line ignored
+  17          #include "common.h"
+*** WARNING C318 IN LINE 24 OF ..\UTILS\COMMON.H: can't open file 'stdbool.h'
+*** WARNING C245 IN LINE 108 OF ..\UTILS\COMMON.H: unknown #pragma, line ignored
+*** WARNING C245 IN LINE 119 OF ..\UTILS\COMMON.H: unknown #pragma, line ignored
+  18          
+  19          int8_t ICACHE_FLASH_ATTR rbCreate(rb_t* rb)
+  20          {
+  21   1          if(NULL == rb)
+  22   1          {
+  23   2              return -1;
+  24   2          }
+  25   1      
+  26   1          rb->rbHead = rb->rbBuff;
+  27   1          rb->rbTail = rb->rbBuff;
+  28   1          return 0;
+  29   1      }
+  30          
+  31          int8_t ICACHE_FLASH_ATTR rbDelete(rb_t* rb)
+  32          {
+  33   1          if(NULL == rb)
+  34   1          {
+  35   2              return -1;
+  36   2          }
+  37   1      
+  38   1          rb->rbBuff = NULL;
+  39   1          rb->rbHead = NULL;
+  40   1          rb->rbTail = NULL;
+  41   1          rb->rbCapacity = 0;
+  42   1          return 0;
+  43   1      }
+  44          
+  45          int32_t ICACHE_FLASH_ATTR rbCapacity(rb_t *rb)
+  46          {
+  47   1          if(NULL == rb)
+  48   1          {
+C51 COMPILER V9.01   RINGBUFFER                                                            06/26/2019 15:58:53 PAGE 2   
+
+  49   2              return -1;
+  50   2          }
+  51   1      
+  52   1          return rb->rbCapacity;
+  53   1      }
+  54          
+  55          int32_t ICACHE_FLASH_ATTR rbCanRead(rb_t *rb)
+  56          {
+  57   1          if(NULL == rb)
+  58   1          {
+  59   2              return -1;
+  60   2          }
+  61   1      
+  62   1          if (rb->rbHead == rb->rbTail)
+  63   1          {
+  64   2              return 0;
+  65   2          }
+  66   1      
+  67   1          if (rb->rbHead < rb->rbTail)
+  68   1          {
+  69   2              return rb->rbTail - rb->rbHead;
+  70   2          }
+  71   1      
+  72   1          return rbCapacity(rb) - (rb->rbHead - rb->rbTail);
+  73   1      }
+  74          
+  75          int32_t ICACHE_FLASH_ATTR rbCanWrite(rb_t *rb)
+  76          {
+  77   1          if(NULL == rb)
+  78   1          {
+  79   2              return -1;
+  80   2          }
+  81   1      
+  82   1          return rbCapacity(rb) - rbCanRead(rb);
+  83   1      }
+  84          
+  85          int32_t ICACHE_FLASH_ATTR rbRead(rb_t *rb, void *gizdata, size_t count)
+  86          {
+  87   1          int32_t copySz = 0;
+  88   1      
+  89   1          if(NULL == rb)
+  90   1          {
+  91   2              return -1;
+  92   2          }
+  93   1      
+  94   1          if(NULL == gizdata)
+  95   1          {
+  96   2              return -1;
+  97   2          }
+  98   1      
+  99   1          if (rb->rbHead < rb->rbTail)
+ 100   1          {
+ 101   2              copySz = min(count, rbCanRead(rb));
+ 102   2              memcpy(gizdata, rb->rbHead, copySz);
+ 103   2              rb->rbHead += copySz;
+ 104   2              return copySz;
+ 105   2          }
+ 106   1          else
+ 107   1          {
+ 108   2              if (count < rbCapacity(rb)-(rb->rbHead - rb->rbBuff))
+ 109   2              {
+ 110   3                  copySz = count;
+C51 COMPILER V9.01   RINGBUFFER                                                            06/26/2019 15:58:53 PAGE 3   
+
+ 111   3                  memcpy(gizdata, rb->rbHead, copySz);
+ 112   3                  rb->rbHead += copySz;
+ 113   3                  return copySz;
+ 114   3              }
+ 115   2              else
+ 116   2              {
+ 117   3                  copySz = rbCapacity(rb) - (rb->rbHead - rb->rbBuff);
+ 118   3                  memcpy(gizdata, rb->rbHead, copySz);
+ 119   3                  rb->rbHead = rb->rbBuff;
+ 120   3                  copySz += rbRead(rb, (char*)gizdata+copySz, count-copySz);
+ 121   3                  return copySz;
+ 122   3              }
+ 123   2          }
+ 124   1      }
+ 125          
+ 126          int32_t ICACHE_FLASH_ATTR rbWrite(rb_t *rb, const void *gizdata, size_t count)
+ 127          {
+ 128   1          int32_t tailAvailSz = 0;
+ 129   1      
+ 130   1          if((NULL == rb)||(NULL == gizdata))
+ 131   1          {
+ 132   2              return -1;
+ 133   2          }
+ 134   1      
+ 135   1          if (count >= rbCanWrite(rb))
+ 136   1          {
+ 137   2              return -2;
+ 138   2          }
+ 139   1      
+ 140   1          if (rb->rbHead <= rb->rbTail)
+ 141   1          {
+ 142   2              tailAvailSz = rbCapacity(rb) - (rb->rbTail - rb->rbBuff);
+ 143   2              if (count <= tailAvailSz)
+ 144   2              {
+ 145   3                  memcpy(rb->rbTail, gizdata, count);
+ 146   3                  rb->rbTail += count;
+ 147   3                  if (rb->rbTail == rb->rbBuff+rbCapacity(rb))
+ 148   3                  {
+ 149   4                      rb->rbTail = rb->rbBuff;
+ 150   4                  }
+ 151   3                  return count;
+ 152   3              }
+ 153   2              else
+ 154   2              {
+ 155   3                  memcpy(rb->rbTail, gizdata, tailAvailSz);
+ 156   3                  rb->rbTail = rb->rbBuff;
+ 157   3      
+ 158   3                  return tailAvailSz + rbWrite(rb, (char*)gizdata+tailAvailSz, count-tailAvailSz);
+ 159   3              }
+ 160   2          }
+ 161   1          else
+ 162   1          {
+ 163   2              memcpy(rb->rbTail, gizdata, count);
+ 164   2              rb->rbTail += count;
+ 165   2              return count;
+ 166   2          }
+ 167   1      }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =   2303    ----
+   CONSTANT SIZE    =   ----    ----
+C51 COMPILER V9.01   RINGBUFFER                                                            06/26/2019 15:58:53 PAGE 4   
+
+   XDATA SIZE       =   ----      39
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =   ----    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  5 WARNING(S),  0 ERROR(S)
