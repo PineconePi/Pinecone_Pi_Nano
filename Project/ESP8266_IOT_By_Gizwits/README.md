@@ -1,7 +1,8 @@
 #松果派NANO移植机智云 GAgent步骤（作者：xdd_core）
 ###  **Step** 
+0. 打开Tools目录，按照烧写教程烧录GAgent至ESP8266
 1. 使用机智云自动生成代码工具生成“STC15F2K60S2”的代码
-2. 用以上文件夹中的文件替换原有文件，并将SYSTEM文件夹添加至工程目录下
+2. 用以上文件夹中的文件替换原有文件，并将SYSTEM文件夹添加至工程目录下（Tools目录除外）
 3. 将SYSTEM文件夹添加到INCLUDE PATH
 4. 修改KEIL MCU型号为"STC8A8K64S4A12"
 5. 在main.c中找到定时器初始化代码
